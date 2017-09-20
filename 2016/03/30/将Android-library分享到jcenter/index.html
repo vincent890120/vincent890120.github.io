@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android Studio分享library到jcenter | 懒人小屋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="懒人小屋" />
+  
+  <meta name="description" content="Android studio 是从哪里得到库的？我们先从这个简单的问题开始，我相信不是每个人都完全明白Android studio 是从哪里得到这些library的。莫非就是Android studio 从google搜索然后下载了一个合适的给我们？其实，没有那么复杂。Android Studio是从build.gradle里面定义的Maven 仓库服务器上下载library的。Apache Ma">
+<meta name="keywords" content="jcenter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio分享library到jcenter">
+<meta property="og:url" content="http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/index.html">
+<meta property="og:site_name" content="懒人小屋">
+<meta property="og:description" content="Android studio 是从哪里得到库的？我们先从这个简单的问题开始，我相信不是每个人都完全明白Android studio 是从哪里得到这些library的。莫非就是Android studio 从google搜索然后下载了一个合适的给我们？其实，没有那么复杂。Android Studio是从build.gradle里面定义的Maven 仓库服务器上下载library的。Apache Ma">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/1.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/2.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/3.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/4.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/5.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/6.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/7.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/8.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/9.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/10.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/11.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/12.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/13.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/jcenter/14.png">
+<meta property="og:updated_time" content="2017-09-20T07:00:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Studio分享library到jcenter">
+<meta name="twitter:description" content="Android studio 是从哪里得到库的？我们先从这个简单的问题开始，我相信不是每个人都完全明白Android studio 是从哪里得到这些library的。莫非就是Android studio 从google搜索然后下载了一个合适的给我们？其实，没有那么复杂。Android Studio是从build.gradle里面定义的Maven 仓库服务器上下载library的。Apache Ma">
+<meta name="twitter:image" content="http://vincent890120.github.io/images/jcenter/1.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">懒人小屋</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        懒人小屋
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        背着吉他的蝙蝠侠
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/vincent890120">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-将Android-library分享到jcenter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Android Studio分享library到jcenter
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/环境搭建/">环境搭建</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2016-03-30
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="Android-studio-是从哪里得到库的？"><a href="#Android-studio-是从哪里得到库的？" class="headerlink" title="Android studio 是从哪里得到库的？"></a>Android studio 是从哪里得到库的？</h2><p>我们先从这个简单的问题开始，我相信不是每个人都完全明白Android studio 是从哪里得到这些library的。莫非就是Android studio 从google搜索然后下载了一个合适的给我们？<br>其实，没有那么复杂。Android Studio是从build.gradle里面定义的Maven 仓库服务器上下载library的。Apache Maven是Apache开发的一个工具，提供了用于贡献library的文件服务器。总的来说，只有两个标准的Android library文件服务器：jcenter 和  Maven Central。在这里，由于Maven Central使用的并不如jcenter广泛，我们重点讨论jcenter。  </p>
+<h3 id="jcenter和Maven-Central"><a href="#jcenter和Maven-Central" class="headerlink" title="jcenter和Maven Central"></a>jcenter和Maven Central</h3><p>为何有两个标准的仓库？<br>事实上两个仓库都具有相同的使命：提供Java或者Android library服务。上传到哪个（或者都上传）取决于开发者。<br>起初，Android Studio 选择Maven Central作为默认仓库。如果你使用老版本的Android Studio创建一个新项目，mavenCentral()会自动的定义在build.gradle中。<br>但是Maven Central的最大问题是对开发者不够友好。上传library异常困难。上传上去的开发者都是某种程度的极客。同时还因为诸如安全方面的其他原因，Android Studio团队决定把默认的仓库替换成jcenter。正如你看到的，一旦使用最新版本的Android Studio创建一个项目，jcenter()自动被定义，而不是mavenCentral()。<br>有许多将Maven Central替换成jcenter的理由，下面是几个主要的原因。   </p>
+<ol>
+<li>jcenter通过CDN发送library，开发者可以享受到更快的下载体验。</li>
+<li>jcenter是全世界最大的Java仓库，因此在Maven Central 上有的，在jcenter上也极有可能有。换句话说jcenter是Maven Central的超集。</li>
+<li>上传library到仓库很简单，不需要像在 Maven Central上做很多复杂的事情。</li>
+<li>友好的用户界面</li>
+<li>如果你想把library上传到 Maven Central ，你可以在bintray网站上直接点击一个按钮就能实现。  </li>
+</ol>
+<p>基于上面的原因以及我自己的经验，可以说替换到jcenter是明智之举。所以我们这篇文章将把重心放在jcenter，反正如果你能成功把library放在jcenter，转到 Maven Central 是非常容易的事情。</p>
+<h3 id="jcenter"><a href="#jcenter" class="headerlink" title="jcenter"></a>jcenter</h3><p>jcenter是一个由 bintray.com维护的Maven仓库。我们可以在这里看到整个仓库的内容。<br>还记得我们经常在build.gradle中定义的如下代码吗？<br>​<br>        buildscript {<br>            repositories {<br>                jcenter()<br>            }<br>            dependencies {<br>                classpath ‘com.android.tools.build:gradle:1.2.3’<br>            }<br>        }<br>其中jcenter( )代表了我们会使用jcenter的maven仓库。</p>
+<h2 id="gradle是如何从仓库上获取一个library的？"><a href="#gradle是如何从仓库上获取一个library的？" class="headerlink" title="gradle是如何从仓库上获取一个library的？"></a>gradle是如何从仓库上获取一个library的？</h2><p>在讨论如何上传library到jcenter之前，我们先看看gradle是如何从仓库获取library的。比如我们在 build.gradle输入如下代码的时候，这些库是如果奇迹般下载到我们的项目中的。<br>​<br>        compile ‘com.example.vincent.scrolllistview:scrolllistview:0.0.2’</p>
+<p>一般来说，我们需要知道library的字符串形式，包含3部分<br>​<br>        GROUP_ID:ARTIFACT_ID:VERSION</p>
+<ul>
+<li>GROUP_ID: com.example.vincent.scrolllistview</li>
+<li>ARTIFACT_ID: scrolllistview</li>
+<li>VERSION: 0.0.2</li>
+</ul>
+<p>具体含义</p>
+<ul>
+<li>GROUP_ID:library的group。有可能在同样的上下文中存在多个不同功能的library。如果library具有相同的group，那么它们将共享一个GROUP_ID。通常我们以开发者包名紧跟着library的group名称来命名，比如com.squareup.picasso。</li>
+<li>ARTIFACT_ID:library的真实名称。</li>
+<li>VERSION:就是版本号而已，虽然可以是任意文字，但是我建议设置为x.y.z的形式，如果喜欢还可以加上beta这样的后缀。</li>
+</ul>
+<p>下面是Square library的一个例子。你可以看到每个都可以很容易的分辨出library和开发者的名称。<br>​<br>        dependencies {<br>            compile ‘com.squareup:otto:1.3.7’<br>            compile ‘com.squareup.picasso:picasso:2.5.2’<br>            compile ‘com.squareup.okhttp:okhttp:2.4.0’<br>            compile ‘com.squareup.retrofit:retrofit:1.9.0’<br>        }<br>那么在添加了上面的依赖之后会发生什么呢？简单。Gradle会询问Maven仓库服务器这个library是否存在，如果是，gradle会获得请求library的路径，一般这个路径都是这样的形式：GROUP_ID/ARTIFACT_ID/VERSION_ID。<br>然后Android Studio 将下载这些文件到我们的电脑上，与我们的项目一起编译。整个过程就是这么简单，一点都不复杂。<br>其实很简单，从仓库上下载的library只是存储在仓库服务器上的jar或者aar文件而已。有点类似于自己去下载这些文件，拷贝然后和项目一起编译。但是使用gradle依赖管理的最大好处是你除了添加几行文字之外啥也不做。library一下子就可以在项目中使用了。</p>
+<h2 id="aar文件"><a href="#aar文件" class="headerlink" title="aar文件"></a>aar文件</h2><p>仓库中存储的有两种类型的library：jar 和 aar。jar文件大家都知道，但是什么是aar文件呢？<br>aar文件时在jar文件之上开发的。之所以有它是因为有些Android Library需要植入一些安卓特有的文件，比如AndroidManifest.xml，资源文件，Assets或者JNI。这些都不是jar文件的标准。<br>因此aar文件就时发明出来包含所有这些东西的。总的来说它和jar一样只是普通的zip文件，不过具有不同的文件结构。jar文件以classes.jar的名字被嵌入到aar文件中。其余的文件罗列如下：</p>
+<ul>
+<li>/AndroidManifest.xml (mandatory)</li>
+<li>/classes.jar (mandatory)</li>
+<li>/res/ (mandatory)</li>
+<li>/R.txt (mandatory)</li>
+<li>/assets/ (optional)</li>
+<li>/libs/*.jar (optional)</li>
+<li>/jni/<abi>/*.so (optional)</abi></li>
+<li>/proguard.txt (optional)</li>
+<li>/lint.jar (optional)<br>可以看到.aar文件是专门为安卓设计的。既然我们是Android开发攻城狮，当然这里主要是讲的是上传aar形式的library。</li>
+</ul>
+<h2 id="上传library到jcenter"><a href="#上传library到jcenter" class="headerlink" title="上传library到jcenter"></a>上传library到jcenter</h2><p>前面都是讲了一些基础的知识，终于到了关键的时刻，下面仔细讲一下怎么将library上传到jcenter</p>
+<h3 id="在bintray上创建package"><a href="#在bintray上创建package" class="headerlink" title="在bintray上创建package"></a>在bintray上创建package</h3><p>第一步：在<a href="https://bintray.com/" target="_blank" rel="external">bintray.com</a>上注册一个账号。<br>第二步：完成注册之后，登录网站，然后点击maven。<br><img src="/images/jcenter/1.png" alt="view icon"><br>第三步：点击Add New Package，为我们的library创建一个新的package。<br><img src="/images/jcenter/2.png" alt="view icon"><br>第四步：输入所有需要的信息<br><img src="/images/jcenter/3.png" alt="view icon"><br>这步很简单，主要是对一些信息的填写<br>虽然如何命名包名没有什么限定，但是也有一定规范。所有字母应该为小写，单词之间用－分割，比如，fb-like。(我这里没有用-分隔符，哈哈，第一次，希望大家还是按照规定比较好)当每项都填完之后，点击Create Package。<br>搞定，这样，我们就已经创建了一个在Bintray上的Maven库。</p>
+<h2 id="创建Android-Studio项目"><a href="#创建Android-Studio项目" class="headerlink" title="创建Android Studio项目"></a>创建Android Studio项目</h2><p>很多情况下，我们需要同时上传一个以上的library到仓库，也可能不需要上传东西。因此我建议最好将每部分分成一个Module。最好分成两个module，一个Application Module一个Library Module。<br>Application Module用于展示库的用法，Library Module是library的源代码。如果你的项目有一个以上的library，尽管创建另外的module：1个 module对应1 个library。<br><img src="/images/jcenter/4.png" alt="view icon"><br>关于如何创建一个新的module，我这里简单说一下。其实很简单。</p>
+<h3 id="Android-Studio中为项目新建及添加Library"><a href="#Android-Studio中为项目新建及添加Library" class="headerlink" title="Android Studio中为项目新建及添加Library"></a>Android Studio中为项目新建及添加Library</h3><p>1.新建项目就不用说了吧，现在来新建一个Module<br><img src="/images/jcenter/5.png" alt="view icon"><br>2.打开如下图，其中有新建Android Library 和 Import Existing Project，我们来新建一个<br><img src="/images/jcenter/6.png" alt="view icon"><br><img src="/images/jcenter/7.png" alt="view icon"><br>3.我们会发现多出来了一个Module，和Eclipse里两个项目在一个空间里一样<br><img src="/images/jcenter/8.png" alt="view icon"><br>4.右击Module（项目）选择open Module Settings,会出现如下图所示，然后选择3 Module dependencies，再选你刚才新建的Library<br><img src="/images/jcenter/9.png" alt="view icon"><br>这样就可以新建了一个module了。</p>
+<h3 id="修改gradle文件"><a href="#修改gradle文件" class="headerlink" title="修改gradle文件"></a>修改gradle文件</h3><p>刚刚我们新建了新的module了，我们需要添加bintray的插件，这里修改项目的build.gradle<br>​<br>    buildscript {<br>        repositories {<br>            jcenter()<br>        }<br>        dependencies {<br>            classpath ‘com.android.tools.build:gradle:1.5.0’<br>            classpath ‘com.android.tools.build:gradle:1.2.3’<br>            classpath ‘com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2’<br>            classpath ‘com.github.dcendents:android-maven-gradle-plugin:1.3’<br>        }<br>    }<br>接下来我们将修改local.properties。在里面定义api key的用户名以及被创建key的密码，用于bintray的认证。之所以要把这些东西放在这个文件是因为这些信息时比较敏感的，不应该到处分享，包括版本控制里面。幸运的是在创建项目的时候local.properties文件就已经被添加到.gitignore了。因此这些敏感数据不会被误传到git服务器。<br>下面是要添加的二行代码：</p>
+<pre><code>bintray.user=YOUR_BINTRAY_USERNAME
+bintray.apikey=YOUR_BINTRAY_API_KEY
+//实例
+bintray.user=vincent890120
+bintray.apikey=39a8f8fa018cee528e8825a487c600e017d2d86e
+</code></pre><p>bintray.user：填写你的Bintray的用户名<br>bintray.apikey：API Key可以在<a href="https://bintray.com/profile/edit" target="_blank" rel="external">Edit Profile</a>页面的API Key 选项卡中找到。<br><img src="/images/jcenter/10.png" alt="view icon"><br>最后要修改的是module的build.gradle文件。注意前面修改的是项目的build.gradle文件。打开它，在apply plugin: ‘com.android.library’之后添加这几行，如下：<br>​<br>        ext {<br>            bintrayRepo = ‘maven’ //默认<br>            bintrayName = ‘scrolllistview’ //创建的 package name</p>
+<pre><code>    publishedGroupId = &apos;com.example.vincent.scrolllistview&apos;
+    libraryName = &apos;ScrollListView&apos;
+    artifact = &apos;scrolllistview&apos;
+
+    libraryDescription = &apos;a listview that can scroll in android&apos;
+
+    siteUrl = &apos;https://github.com/vincent890120/ScrollListView&apos;
+    gitUrl = &apos;https://github.com/vincent890120/ScrollListView.git&apos;
+
+    libraryVersion = &apos;0.0.2&apos;
+
+    developerId = &apos;vincent890120&apos;
+    developerName = &apos;vincent&apos;
+    developerEmail = &apos;vincent890120@126.com&apos;
+
+    licenseName = &apos;The Apache Software License, Version 2.0&apos;
+    licenseUrl = &apos;http://www.apache.org/licenses/LICENSE-2.0.txt&apos;
+    allLicenses = [&quot;Apache-2.0&quot;]
+}
+</code></pre><p>最后在文件的后面追加两行如下的代码来应用两个脚本，用于构建library文件和上传文件到bintray（为了方便，我直接使用了github上连接到相关文件的链接）：<br>​<br>    apply from: ‘<a href="https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle" target="_blank" rel="external">https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle</a>‘<br>    apply from: ‘<a href="https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle" target="_blank" rel="external">https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle</a>‘</p>
+<p>完整的build.gradle文件如下：</p>
+<pre><code>    apply plugin: &apos;com.android.library&apos;
+
+    ext {
+        bintrayRepo = &apos;maven&apos;
+        bintrayName = &apos;scrolllistview&apos;
+
+        publishedGroupId = &apos;com.example.vincent.scrolllistview&apos;
+        libraryName = &apos;ScrollListView&apos;
+        artifact = &apos;scrolllistview&apos;
+
+        libraryDescription = &apos;a listview that can scroll in android&apos;
+
+        siteUrl = &apos;https://github.com/vincent890120/ScrollListView&apos;
+        gitUrl = &apos;https://github.com/vincent890120/ScrollListView.git&apos;
+
+        libraryVersion = &apos;0.0.2&apos;
+
+        developerId = &apos;vincent890120&apos;
+        developerName = &apos;vincent&apos;
+        developerEmail = &apos;vincent890120@126.com&apos;
+
+        licenseName = &apos;The Apache Software License, Version 2.0&apos;
+        licenseUrl = &apos;http://www.apache.org/licenses/LICENSE-2.0.txt&apos;
+        allLicenses = [&quot;Apache-2.0&quot;]
+    }
+
+android {
+        compileSdkVersion 23
+        buildToolsVersion &quot;23.0.2&quot;
+
+        defaultConfig {
+            minSdkVersion 15
+            targetSdkVersion 23
+            versionCode 1
+            versionName &quot;1.0&quot;
+        }
+buildTypes {
+    release {
+        minifyEnabled false
+        proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-        rules.pro&apos;
+        }
+    }
+}
+
+dependencies {
+            compile fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])
+            compile &apos;junit:junit:4.12&apos;
+        compile &apos;com.android.support:appcompat-v7:23.1.1&apos;
+    }
+
+    apply from: &apos;https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle&apos;
+    apply from: &apos;https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle&apos;
+</code></pre><h3 id="把library上传到bintray空间"><a href="#把library上传到bintray空间" class="headerlink" title="把library上传到bintray空间"></a>把library上传到bintray空间</h3><p>现在是上传library到你自己的bintray仓库上的时候了。请到Android Studio的终端（Terminal）选项卡。<br><img src="/images/jcenter/11.png" alt="view icon"><br>第一步是检查代码的正确性，以及编译library文件（aar，pom等等），输入下面的命令：<br>​        </p>
+<pre><code>&gt; gradle install
+</code></pre><p>如果没有什么问题，会显示：<br>​<br>        BUILD SUCCESSFUL<br>现在我们已经成功一半了。下一步是上传编译的文件到bintray，使用如下的命令：<br>​<br>        gradle bintrayUpload<br>如果没有什么问题，会显示：<br>​<br>        SUCCESSFUL<br>在bintray的网页上检查一下你的package。你会发现在版本区域的变化。<br><img src="/images/jcenter/12.png" alt="view icon"><br>恭喜，你的library终于放在了互联网上，任何人都可以使用了！<br>不过也别高兴过头，library现在仍然只是在你自己的Maven仓库，而不是在jcenter上。如果有人想使用你的library，他必须定义仓库的url，如下：<br>​<br>        repositories {<br>            maven {<br>                url ‘<a href="https://dl.bintray.com/vincent890120/maven/" target="_blank" rel="external">https://dl.bintray.com/vincent890120/maven/</a>‘<br>            }<br>        }</p>
+<pre><code>...
+
+dependencies {
+    compile &apos;com.example.vincent.scrolllistview:scrolllistview:0.0.1&apos;
+}
+</code></pre><p>你可以在bintray的web界面找到自己Maven仓库的url，或者直接吧vincent890120替换成你的bintray用户名（因为前面部分其实都是一样的）。我还建议你直接访问那个链接，看看里面到底是什么。</p>
+<p>但是，就如我们前面所讲的那样，让开发者去定义url这种复杂的事情并不是分享library的最佳方式。想象一下，使用10个library不得添加10个url？所以为了更好的体验，我们把library从自己的仓库传到jcenter上。</p>
+<h3 id="同步bintray用户仓库到jcenter"><a href="#同步bintray用户仓库到jcenter" class="headerlink" title="同步bintray用户仓库到jcenter"></a>同步bintray用户仓库到jcenter</h3><p>把library同步到jcenter非常容易。只需访问网页并点击Add to JCenter，这时你会发现自己的项目会有变化了<br><img src="/images/jcenter/13.png" alt="view icon"></p>
+<p>从此之后，任何开发者都可以使用jcenter() repository 外加一行gradle脚本来使用我们的library了<br>​<br>        compile ‘com.example.vincent.scrolllistview:scrolllistview:0.0.1’</p>
+<p>当我们想修改和升级的时候，不要忘了修改<br>​<br>        libraryVersion = ‘0.0.2’<br>这样    上传之后会自动生成一个新的版本<br><img src="/images/jcenter/14.png" alt="view icon"></p>
+<p>到这里，全部的内容就结束了，赶快上传一个自己的项目到maven库吧，是不是很酷啊。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年09月20日 15:00</p>
+        <p>原始链接： <a class="post-url" href="/2016/03/30/将Android-library分享到jcenter/" title="Android Studio分享library到jcenter">http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/</a></p>
+        <footer>
+            <a href="http://vincent890120.github.io">
+                <img src="/images/logo.png" alt="vincent">
+                vincent
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/&title=《Android Studio分享library到jcenter》 — 懒人小屋&pic=http://vincent890120.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/&title=《Android Studio分享library到jcenter》 — 懒人小屋&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android Studio分享library到jcenter》 — 懒人小屋&url=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/&via=http://vincent890120.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://vincent890120.github.io/2016/03/30/将Android-library分享到jcenter/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/jcenter/" class="color3">jcenter</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android-studio-是从哪里得到库的？"><span class="post-toc-text">Android studio 是从哪里得到库的？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jcenter和Maven-Central"><span class="post-toc-text">jcenter和Maven Central</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jcenter"><span class="post-toc-text">jcenter</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gradle是如何从仓库上获取一个library的？"><span class="post-toc-text">gradle是如何从仓库上获取一个library的？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#aar文件"><span class="post-toc-text">aar文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#上传library到jcenter"><span class="post-toc-text">上传library到jcenter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在bintray上创建package"><span class="post-toc-text">在bintray上创建package</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建Android-Studio项目"><span class="post-toc-text">创建Android Studio项目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android-Studio中为项目新建及添加Library"><span class="post-toc-text">Android Studio中为项目新建及添加Library</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#修改gradle文件"><span class="post-toc-text">修改gradle文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#把library上传到bintray空间"><span class="post-toc-text">把library上传到bintray空间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#同步bintray用户仓库到jcenter"><span class="post-toc-text">同步bintray用户仓库到jcenter</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2016/05/26/自定义View/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          自定义View
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2016/03/22/Android控件架构/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Android控件架构</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 vincent<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://vincent890120.github.io",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/activity/">activity</a><a class="category-link" href="/categories/service/">service</a><a class="category-link" href="/categories/环境搭建/">环境搭建</a><a class="category-link" href="/categories/自定义view/">自定义view</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>

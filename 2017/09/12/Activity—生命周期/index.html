@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Activity—生命周期 | 懒人小屋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="懒人小屋" />
+  
+  <meta name="description" content="Activity—生命周期作为android四大组件，activity的作用对于每一个android开发来说都是非凡的。之前学习android，只知道7个生命周期，但是具体的详细的东西却不求甚解，这篇主要是深入了解一下生命周期，重新学习一下这个熟悉的activity。  上图是最基础的activity的生命周期的一个调用的过程 一、生命周期中各个方法的含义和作用1、7个生命周期的含义（1）onCr">
+<meta name="keywords" content="activity">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity—生命周期">
+<meta property="og:url" content="http://vincent890120.github.io/2017/09/12/Activity—生命周期/index.html">
+<meta property="og:site_name" content="懒人小屋">
+<meta property="og:description" content="Activity—生命周期作为android四大组件，activity的作用对于每一个android开发来说都是非凡的。之前学习android，只知道7个生命周期，但是具体的详细的东西却不求甚解，这篇主要是深入了解一下生命周期，重新学习一下这个熟悉的activity。  上图是最基础的activity的生命周期的一个调用的过程 一、生命周期中各个方法的含义和作用1、7个生命周期的含义（1）onCr">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activity_lifecycle.png">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife1.png">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife2.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife3.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife4.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife5.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife6.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife7.gif">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activitylife7.gif">
+<meta property="og:updated_time" content="2017-09-20T09:08:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity—生命周期">
+<meta name="twitter:description" content="Activity—生命周期作为android四大组件，activity的作用对于每一个android开发来说都是非凡的。之前学习android，只知道7个生命周期，但是具体的详细的东西却不求甚解，这篇主要是深入了解一下生命周期，重新学习一下这个熟悉的activity。  上图是最基础的activity的生命周期的一个调用的过程 一、生命周期中各个方法的含义和作用1、7个生命周期的含义（1）onCr">
+<meta name="twitter:image" content="http://vincent890120.github.io/2017/09/12/images/activity/activity_lifecycle.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">懒人小屋</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        懒人小屋
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        背着吉他的蝙蝠侠
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/vincent890120">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Activity—生命周期" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Activity—生命周期
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/activity/">activity</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-09-12
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="Activity—生命周期"><a href="#Activity—生命周期" class="headerlink" title="Activity—生命周期"></a>Activity—生命周期</h1><p><strong>作为android四大组件，activity的作用对于每一个android开发来说都是非凡的。之前学习android，只知道7个生命周期，但是具体的详细的东西却不求甚解，这篇主要是深入了解一下生命周期，重新学习一下这个熟悉的activity。</strong></p>
+<p><img src="../images/activity/activity_lifecycle.png" alt=""></p>
+<p>上图是最基础的activity的生命周期的一个调用的过程</p>
+<h3 id="一、生命周期中各个方法的含义和作用"><a href="#一、生命周期中各个方法的含义和作用" class="headerlink" title="一、生命周期中各个方法的含义和作用"></a>一、生命周期中各个方法的含义和作用</h3><h4 id="1、7个生命周期的含义"><a href="#1、7个生命周期的含义" class="headerlink" title="1、7个生命周期的含义"></a>1、7个生命周期的含义</h4><h4 id="（1）onCreate"><a href="#（1）onCreate" class="headerlink" title="（1）onCreate:"></a>（1）onCreate:</h4><p>​    它本身的作用是进行Activity的一些初始化工作，比如使用setContentView加载布局，对一些控件和变量进行初始化等。此时<strong>Activity还在后台，不可见</strong>。所以动画不应该在这里初始化，因为看不到……</p>
+<h4 id="（2）onStart："><a href="#（2）onStart：" class="headerlink" title="（2）onStart："></a>（2）onStart：</h4><p>​    此时Activity已经<strong>可见</strong>了，但是还没出现在前台，我们还看不到，无法与Activity交互。其实将Activity的初始化工作放在这也没有什么问题，放在onCreate中是由于官方推荐的以及我们开发的习惯。</p>
+<h4 id="（3）onResume"><a href="#（3）onResume" class="headerlink" title="（3）onResume:"></a>（3）onResume:</h4><p>​    此时Activity经过前两个阶段的初始化已经蓄势待发。Activity在这个阶段已经出现在前台并且<strong>可见</strong>了。这个阶段可以打开独占设备</p>
+<h4 id="（4）onPause"><a href="#（4）onPause" class="headerlink" title="（4）onPause:"></a>（4）onPause:</h4><p>​    当Activity要跳到另一个Activity或应用正常退出时都会执行这个方法。此时Activity在前台并<strong>可见</strong>，我们可以进行一些轻量级的存储数据和去初始化的工作，不能太耗时，因为在跳转Activity时只有当一个Activity执行完了onPause方法后另一个Activity才会启动，而且android中指定如果onPause在500ms即0.5秒内没有执行完毕的话就会强制关闭Activity。</p>
+<h4 id="（5）onStop："><a href="#（5）onStop：" class="headerlink" title="（5）onStop："></a>（5）onStop：</h4><p>​    此时Activity已经<strong>不可见</strong>了，但是Activity对象还在内存中，没有被销毁。这个阶段的主要工作也是做一些资源的回收工作。</p>
+<h4 id="（6）onDestroy："><a href="#（6）onDestroy：" class="headerlink" title="（6）onDestroy："></a>（6）onDestroy：</h4><p>​    这个阶段Activity被销毁，<strong>不可见</strong>，我们可以将还没释放的资源释放，以及进行一些回收工作。</p>
+<h4 id="（7）onRestart："><a href="#（7）onRestart：" class="headerlink" title="（7）onRestart："></a>（7）onRestart：</h4><p>​    Activity在这时<strong>可见</strong>，当用户按Home键切换到桌面后又切回来或者从后一个Activity切回前一个Activity就会触发这个方法。这里一般不做什么操作。</p>
+<h3 id="2、各个生命周期的区别"><a href="#2、各个生命周期的区别" class="headerlink" title="2、各个生命周期的区别"></a>2、各个生命周期的区别</h3><ul>
+<li><h3 id="onCreate和onStart之间有什么区别？"><a href="#onCreate和onStart之间有什么区别？" class="headerlink" title="onCreate和onStart之间有什么区别？"></a>onCreate和onStart之间有什么区别？</h3></li>
+</ul>
+<p>（1）可见与不可见的区别。前者不可见，后者可见。<br>（2）执行次数的区别。onCreate方法只在Activity创建时执行<strong>一次</strong>，而onStart方法在Activity的切换以及按Home键返回桌面再切回应用的过程中被多次调用。因此<strong>Bundle数据的恢复在onStart中进行比onCreate中执行更合适</strong>。<br>（3）onCreate能做的事onStart其实都能做，但是onstart能做的事onCreate却未必适合做。如前文所说的，setContentView和资源初始化在两者都能做，然而想动画的初始化在onStart中做比较好。</p>
+<ul>
+<li><h3 id="onStart方法和onResume方法有什么区别？"><a href="#onStart方法和onResume方法有什么区别？" class="headerlink" title="onStart方法和onResume方法有什么区别？"></a>onStart方法和onResume方法有什么区别？</h3></li>
+</ul>
+<p>（1）是否在前台。onStart方法中Activity可见但不在前台，不可交互，而在onResume中在前台。<br>（2）职责不同，onStart方法中主要还是进行初始化工作，而onResume方法，根据官方的建议，可以做开启动画和独占设备的操作。</p>
+<ul>
+<li><h3 id="onPause方法和onStop方法有什么区别？"><a href="#onPause方法和onStop方法有什么区别？" class="headerlink" title="onPause方法和onStop方法有什么区别？"></a>onPause方法和onStop方法有什么区别？</h3></li>
+</ul>
+<p>（1）是否可见。onPause时Activity可见，onStop时Activity不可见，<strong>但Activity对象还在内存中</strong>。<br>（2）在系统内存不足的时候可能不会执行onStop方法，因此程序状态的保存、独占设备和动画的关闭、以及一些数据的保存最好在onPause中进行，但要注意不能太耗时。</p>
+<ul>
+<li><h3 id="onStop方法和onDestroy方法有什么区别？"><a href="#onStop方法和onDestroy方法有什么区别？" class="headerlink" title="onStop方法和onDestroy方法有什么区别？"></a>onStop方法和onDestroy方法有什么区别？</h3></li>
+</ul>
+<p>onStop阶段Activity还没有被销毁，对象还在内存中，此时可以通过切换Activity再次回到该Activity，而onDestroy阶段Acivity被销毁</p>
+<ul>
+<li><h3 id="切换Activity时各方法的执行次序"><a href="#切换Activity时各方法的执行次序" class="headerlink" title="切换Activity时各方法的执行次序"></a>切换Activity时各方法的执行次序</h3></li>
+</ul>
+<p>(A)onPause→(B)onCreate→(B)onStart→(B)onResume→(A)onStop而不是(A)onPause→(A)onStop→(B)onCreate→(B)onStart→(B)onResume</p>
+<p>（1）一个Activity或多或少会占有系统资源，而在官方的建议中，onPause方法将会释放掉很多系统资源，为切换Activity提供流畅性的保障，而不需要再等多两个阶段，这样做切换更快。<br>（2）按照生命周期图的表示，如果用户在切换Activity的过程中再次切回原Activity，是在onPause方法后直接调用onResume方法的，这样比onPause→onStop→onRestart→onStart→onResume要快得多。</p>
+<ul>
+<li><h3 id="onSaveInstanceState和onRestoreInstanceState"><a href="#onSaveInstanceState和onRestoreInstanceState" class="headerlink" title="onSaveInstanceState和onRestoreInstanceState"></a>onSaveInstanceState和onRestoreInstanceState</h3></li>
+</ul>
+<h4 id="onSaveInstanceState"><a href="#onSaveInstanceState" class="headerlink" title="onSaveInstanceState"></a><strong>onSaveInstanceState</strong></h4><p>(1)在Activity被覆盖或退居后台之后，系统资源不足将其杀死，此方法会被调用；</p>
+<p>(2)在用户改变屏幕方向时，此方法会被调用；</p>
+<p>(3)在当前Activity跳转到其他Activity或者按Home键回到主屏，自身退居后台时，此方法会被调用。</p>
+<p>第一种情况我们无法保证什么时候发生，系统根据资源紧张程度去调度；</p>
+<p>第二种是屏幕翻转方向时，系统先销毁当前的Activity，然后再重建一个新的，调用此方法时，我们可以保存一些临时数据；</p>
+<p>第三种情况系统调用此方法是为了保存当前窗口各个View组件的状态。<strong>onSaveInstanceState的调用顺序是在onPause之前。</strong></p>
+<h4 id="onRestoreInstanceState"><a href="#onRestoreInstanceState" class="headerlink" title="onRestoreInstanceState"></a><strong>onRestoreInstanceState</strong></h4><p>(1)在Activity被覆盖或退居后台之后，系统资源不足将其杀死，然后用户又回到了此Activity，此方法会被调用；</p>
+<p>(2)在用户改变屏幕方向时，重建的过程中，此方法会被调用。我们可以重写此方法，以便可以恢复一些临时数据。onRestoreInstanceState的调用顺序是在onStart之后。</p>
+<h3 id="三、具体过程"><a href="#三、具体过程" class="headerlink" title="三、具体过程"></a>三、具体过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">import android.app.Activity;  </div><div class="line">import android.content.res.Configuration;  </div><div class="line">import android.os.Bundle;  </div><div class="line">import android.util.Log;  </div><div class="line">public class LifeCycleActivity extends Activity &#123;  </div><div class="line">    private static final String TAG = &quot;OrientationActivity&quot;;  </div><div class="line">    private int param = 1;  </div><div class="line">    @Override  </div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;  </div><div class="line">        super.onCreate(savedInstanceState);  </div><div class="line">        setContentView(R.layout.orientation_portrait);  </div><div class="line">        Log.i(TAG, &quot;onCreate called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onStart() &#123;  </div><div class="line">        super.onStart();  </div><div class="line">        Log.i(TAG, &quot;onStart called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onRestart() &#123;  </div><div class="line">        super.onRestart();  </div><div class="line">        Log.i(TAG, &quot;onRestart called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onResume() &#123;  </div><div class="line">        super.onResume();  </div><div class="line">        Log.i(TAG, &quot;onResume called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onPause() &#123;  </div><div class="line">        super.onPause();  </div><div class="line">        Log.i(TAG, &quot;onPause called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onStop() &#123;  </div><div class="line">        super.onStop();  </div><div class="line">        Log.i(TAG, &quot;onStop called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onDestroy() &#123;  </div><div class="line">        super.onDestroy();  </div><div class="line">        Log.i(TAG, &quot;onDestory called.&quot;);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onSaveInstanceState(Bundle outState) &#123;  </div><div class="line">        outState.putInt(&quot;param&quot;, param);  </div><div class="line">        Log.i(TAG, &quot;onSaveInstanceState called. put param: &quot; + param);  </div><div class="line">        super.onSaveInstanceState(outState);  </div><div class="line">    &#125;  </div><div class="line">    @Override  </div><div class="line">    protected void onRestoreInstanceState(Bundle savedInstanceState) &#123;  </div><div class="line">        param = savedInstanceState.getInt(&quot;param&quot;);  </div><div class="line">        Log.i(TAG, &quot;onRestoreInstanceState called. get param: &quot; + param);  </div><div class="line">        super.onRestoreInstanceState(savedInstanceState);  </div><div class="line">    &#125;  </div><div class="line">    //当指定了android:configChanges=&quot;orientation&quot;后,方向改变时onConfigurationChanged被调用  </div><div class="line">    @Override  </div><div class="line">    public void onConfigurationChanged(Configuration newConfig) &#123;  </div><div class="line">        super.onConfigurationChanged(newConfig);  </div><div class="line">        Log.i(TAG, &quot;onConfigurationChanged called.&quot;);  </div><div class="line">        switch (newConfig.orientation) &#123;  </div><div class="line">        case Configuration.ORIENTATION_PORTRAIT:  </div><div class="line">            setContentView(R.layout.orientation_portrait);  </div><div class="line">            break;  </div><div class="line">        case Configuration.ORIENTATION_LANDSCAPE:  </div><div class="line">            setContentView(R.layout.orientation_landscape);  </div><div class="line">            break;  </div><div class="line">        &#125; </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>1.启动Activity：</strong></p>
+<p><img src="../images/activity/activitylife1.png" alt=""></p>
+<p>在系统调用了onCreate和onStart之后，调用了onResume，自此，Activity进入了运行状态。</p>
+<p><strong>2.跳转到其他Activity，或按下Home键回到主屏：</strong></p>
+<p><img src="../images/activity/activitylife2.gif" alt=""></p>
+<p>我们看到，此时onSaveInstanceState方法在onPause之前被调用了，并且注意，退居后台时，onPause后onStop相继被调用。</p>
+<p><strong>3.从后台回到前台：</strong></p>
+<p><img src="../images/activity/activitylife3.gif" alt=""></p>
+<p>当从后台会到前台时，系统先调用onRestart方法，然后调用onStart方法，最后调用onResume方法，Activity又进入了运行状态。</p>
+<p><strong>4.其他activity覆盖</strong></p>
+<p>修改TargetActivity在AndroidManifest.xml中的配置，将android:theme属性设置为@android:style/Theme.Dialog，然后再点击LifeCycleActivity中的按钮，跳转行为就变为了TargetActivity覆盖到LifeCycleActivity之上了，此时调用的方法为：</p>
+<p><img src="../images/activity/activitylife4.gif" alt=""></p>
+<p>注意还有一种情况就是，我们点击按钮，只是按下锁屏键，执行的效果也是如上。</p>
+<p>我们注意到，此时LifeCycleActivity的OnPause方法被调用，并没有调用onStop方法，因为此时的LifeCycleActivity没有退居后台，只是被覆盖或被锁屏；onSaveInstanceState会在onPause之前被调用。</p>
+<p><strong>5.按回退键</strong></p>
+<p>使LifeCycleActivity从被覆盖回到前面，或者按解锁键解锁屏幕：</p>
+<p><img src="../images/activity/activitylife5.gif" alt=""></p>
+<p>此时只有onResume方法被调用，直接再次进入运行状态。</p>
+<p><strong>6.退出：</strong></p>
+<p><img src="../images/activity/activitylife6.gif" alt=""></p>
+<p>最后onDestory方法被调用，标志着LifeCycleActivity的终结。</p>
+<p>大家似乎注意到，在所有的过程中，并没有onRestoreInstanceState的出现，这个并不奇怪，因为之前我们就说过，onRestoreInstanceState只有在杀死不在前台的Activity之后用户回到此Activity，或者用户改变屏幕方向的这两个重建过程中被调用。我们要演示第一种情况比较困难，我们可以结合第二种情况演示一下具体过程。顺便也向大家讲解一下屏幕方向改变的应对策略。</p>
+<p><strong>7.旋转屏幕</strong></p>
+<p><img src="../images/activity/activitylife7.gif" alt=""></p>
+<p>系统先是调用onSaveInstanceState方法，我们保存了一个临时参数到Bundle对象里面，然后当Activity重建之后我们又成功的取出了这个参数。</p>
+<p>为了避免这样销毁重建的过程，我们需要在AndroidMainfest.xml中对OrientationActivity对应的<activity>配置android:configChanges=”orientation”，然后我们再测试一下，我试着做了四次的旋转，打印如下：</activity></p>
+<p><img src="../images/activity/activitylife7.gif" alt=""></p>
+<p>可以看到，每次旋转方向时，只有onConfigurationChanged方法被调用，没有了销毁重建的过程。</p>
+<p>注意：如果<activity>配置了android:screenOrientation属性，则会使android:configChanges=”orientation”失效。</activity></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年09月20日 17:08</p>
+        <p>原始链接： <a class="post-url" href="/2017/09/12/Activity—生命周期/" title="Activity—生命周期">http://vincent890120.github.io/2017/09/12/Activity—生命周期/</a></p>
+        <footer>
+            <a href="http://vincent890120.github.io">
+                <img src="/images/logo.png" alt="vincent">
+                vincent
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://vincent890120.github.io/2017/09/12/Activity—生命周期/&title=《Activity—生命周期》 — 懒人小屋&pic=http://vincent890120.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://vincent890120.github.io/2017/09/12/Activity—生命周期/&title=《Activity—生命周期》 — 懒人小屋&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://vincent890120.github.io/2017/09/12/Activity—生命周期/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Activity—生命周期》 — 懒人小屋&url=http://vincent890120.github.io/2017/09/12/Activity—生命周期/&via=http://vincent890120.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://vincent890120.github.io/2017/09/12/Activity—生命周期/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://vincent890120.github.io/2017/09/12/Activity—生命周期/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/activity/" class="color4">activity</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Activity—生命周期"><span class="post-toc-text">Activity—生命周期</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、生命周期中各个方法的含义和作用"><span class="post-toc-text">一、生命周期中各个方法的含义和作用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1、7个生命周期的含义"><span class="post-toc-text">1、7个生命周期的含义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（1）onCreate"><span class="post-toc-text">（1）onCreate:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（2）onStart："><span class="post-toc-text">（2）onStart：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（3）onResume"><span class="post-toc-text">（3）onResume:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（4）onPause"><span class="post-toc-text">（4）onPause:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（5）onStop："><span class="post-toc-text">（5）onStop：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（6）onDestroy："><span class="post-toc-text">（6）onDestroy：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#（7）onRestart："><span class="post-toc-text">（7）onRestart：</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2、各个生命周期的区别"><span class="post-toc-text">2、各个生命周期的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#onCreate和onStart之间有什么区别？"><span class="post-toc-text">onCreate和onStart之间有什么区别？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#onStart方法和onResume方法有什么区别？"><span class="post-toc-text">onStart方法和onResume方法有什么区别？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#onPause方法和onStop方法有什么区别？"><span class="post-toc-text">onPause方法和onStop方法有什么区别？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#onStop方法和onDestroy方法有什么区别？"><span class="post-toc-text">onStop方法和onDestroy方法有什么区别？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#切换Activity时各方法的执行次序"><span class="post-toc-text">切换Activity时各方法的执行次序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#onSaveInstanceState和onRestoreInstanceState"><span class="post-toc-text">onSaveInstanceState和onRestoreInstanceState</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#onSaveInstanceState"><span class="post-toc-text">onSaveInstanceState</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#onRestoreInstanceState"><span class="post-toc-text">onRestoreInstanceState</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、具体过程"><span class="post-toc-text">三、具体过程</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/09/13/Activity的四大启动模式/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Activity—四大启动模式
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2016/05/26/自定义View/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">自定义View</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 vincent<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://vincent890120.github.io",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/activity/">activity</a><a class="category-link" href="/categories/service/">service</a><a class="category-link" href="/categories/环境搭建/">环境搭建</a><a class="category-link" href="/categories/自定义view/">自定义view</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>

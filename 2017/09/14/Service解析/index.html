@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Service—解析 | 懒人小屋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="懒人小屋" />
+  
+  <meta name="description" content="Service—解析 熟悉了activity，不得不提到android的第二大组件—Service，如果说activity是面子工程，service可以算作是里子工程了。这篇文章主要介绍一下service的使用  一. service简介Service(服务)是一个一种可以在后台执行长时间运行操作而没有用户界面的应用组件。服务可由其他应用组件启动（如Activity），服务一旦被启动将在后台一直运">
+<meta name="keywords" content="service">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Service—解析">
+<meta property="og:url" content="http://vincent890120.github.io/2017/09/14/Service解析/index.html">
+<meta property="og:site_name" content="懒人小屋">
+<meta property="og:description" content="Service—解析 熟悉了activity，不得不提到android的第二大组件—Service，如果说activity是面子工程，service可以算作是里子工程了。这篇文章主要介绍一下service的使用  一. service简介Service(服务)是一个一种可以在后台执行长时间运行操作而没有用户界面的应用组件。服务可由其他应用组件启动（如Activity），服务一旦被启动将在后台一直运">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/14/images/service/servicelife.png">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/14/images/service/service_sort.png">
+<meta property="og:image" content="http://vincent890120.github.io/2017/09/14/images/service/service_%20feature.png">
+<meta property="og:updated_time" content="2017-09-20T09:08:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Service—解析">
+<meta name="twitter:description" content="Service—解析 熟悉了activity，不得不提到android的第二大组件—Service，如果说activity是面子工程，service可以算作是里子工程了。这篇文章主要介绍一下service的使用  一. service简介Service(服务)是一个一种可以在后台执行长时间运行操作而没有用户界面的应用组件。服务可由其他应用组件启动（如Activity），服务一旦被启动将在后台一直运">
+<meta name="twitter:image" content="http://vincent890120.github.io/2017/09/14/images/service/servicelife.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">懒人小屋</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        懒人小屋
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        背着吉他的蝙蝠侠
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/vincent890120">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Service解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Service—解析
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/service/">service</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-09-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="Service—解析"><a href="#Service—解析" class="headerlink" title="Service—解析"></a>Service—解析</h2><blockquote>
+<p><em>熟悉了activity，不得不提到android的第二大组件—Service，如果说activity是面子工程，service可以算作是里子工程了。这篇文章主要介绍一下service的使用</em></p>
+</blockquote>
+<h2 id="一-service简介"><a href="#一-service简介" class="headerlink" title="一. service简介"></a>一. service简介</h2><p>Service(服务)是一个一种可以在后台执行长时间运行操作而没有用户界面的应用组件。服务可由其他应用组件启动（如Activity），服务一旦被启动将在后台一直运行，即使启动服务的组件（Activity）已销毁也不受影响。 此外，组件可以绑定到服务，以与之进行交互，甚至是执行进程间通信 (IPC)。 例如，服务可以处理网络事务、播放音乐，执行文件 I/O 或与内容提供程序交互，而所有这一切均可在后台进行。</p>
+<ul>
+<li>定义：服务，属于Android中的计算型组件</li>
+<li>作用：提供需要在后台长期运行的服务（如复杂计算、下载等等）</li>
+<li>特点：长生命周期的、没有用户界面、在后台运行</li>
+</ul>
+<h2 id="二-生命周期"><a href="#二-生命周期" class="headerlink" title="二. 生命周期"></a>二. 生命周期</h2><p>首先看一下官方给出的生命周期图</p>
+<p><img src="../images/service/servicelife.png" alt=""></p>
+<ul>
+<li><strong>onCreate()</strong></li>
+</ul>
+<p>  首次创建服务时，系统将调用此方法来执行<strong>一次性设置</strong>程序（在调用 onStartCommand() 或onBind() 之前）。如果服务已在运行，则不会调用此方法，该方法只调用一次</p>
+<ul>
+<li><strong>onStartCommand()</strong></li>
+</ul>
+<p>  当另一个组件（如 Activity）通过调用 startService() 请求启动服务时，系统将调用此方法。一旦执行此方法，服务即会启动并可在<strong>后台无限期运行</strong>。 如果自己实现此方法，则需要在服务工作完成后，通过调用 stopSelf() 或 stopService() 来停止服务。（在绑定状态下，无需实现此方法。）</p>
+<ul>
+<li><strong>onBind()</strong></li>
+</ul>
+<p>  当另一个组件想通过调用 bindService() 与服务绑定（例如执行 RPC）时，系统将调用此方法。在此方法的实现中，必须返回 一个IBinder 接口的实现类，供客户端用来与服务进行通信。无论是启动状态还是绑定状态，此方法必须重写，但在启动状态的情况下直接返回 null。</p>
+<ul>
+<li><strong>onDestroy()</strong></li>
+</ul>
+<p>  当服务不再使用且将被销毁时，系统将调用此方法。服务应该实现此方法来清理所有资源，如线程、注册的侦听器、接收器等，这是服务接收的最后一个调用。</p>
+<ul>
+<li><strong>onUnbind()</strong></li>
+</ul>
+<p>  调用者与服务解除绑定时调用</p>
+<p>​    一旦在项目的任何位置调用了 Context的 <strong>startService</strong>()方法，相应的服务就会启动起来，并回调 <strong>onStartCommand</strong>()方法。如果这个服务之前还没有创建过，<strong>onCreate</strong>()方法会先于<strong>onStartCommand</strong>()方法执行。服务启动了之后会一直保持运行状态，直到 <strong>stopService</strong>()或<strong>stopSelf</strong>()方法被调用。注意虽然每调用一次<strong>startService</strong>()方法，<strong>onStartCommand</strong>()就会执行一次，但实际上每个服务都只会存在一个实例。所以不管你调用了多少次 startService()方法， 只需调用一次 stopService()或 stopSelf()方法，服务就会停止下来了。</p>
+<p>​    另外，还可以调用 Context的<strong>bindService()</strong>来获取一个服务的持久连接，这时就会回调服务中的 onBind()方法。类似地，如果这个服务之前还没有创建过，onCreate()方法会先于 onBind()方法执行。之后，调用方可以获取到 onBind()方法里返回的 IBinde对象的实例，这样就能自由地和服务进行通信了。只要调用方和服务之间的连接没有断开，服务就会一直保持运行状态。 当调用了 startService()方法后，又去调用 stopService()方法，这时服务中的 onDestroy() 方法就会执行，表示服务已经销毁了。类似地，当调用了 bindService()方法后，又去调用 unbindService()方法，onDestroy()方法也会执行，这两种情况都很好理解。</p>
+<pre><code>但是需要注意，我们是完全有可能对一个服务既调用了 startService()方法，又调用了 bindService()方法的， 这种情况下该如何才能让服务销毁掉呢？根据 Android系统的机制，一个服务只要被启动或者被绑定了之后，就会一直处于运行状态，必须要让以上两种条件同时不满足，服务才能被销毁。所以，这种情况下要同时调用 stopService()和 unbindService()方法，onDestroy()方法才会执行。
+</code></pre><h2 id="三-service的分类"><a href="#三-service的分类" class="headerlink" title="三. service的分类"></a>三. service的分类</h2><h3 id="1-Service的类型"><a href="#1-Service的类型" class="headerlink" title="1. Service的类型"></a>1. Service的类型</h3><p>service在不同的场景下，对应的服务也不相同，将服务进行分类</p>
+<p><img src="../images/service/service_sort.png" alt=""></p>
+<h3 id="2-特点"><a href="#2-特点" class="headerlink" title="2. 特点"></a>2. 特点</h3><p><img src="../images/service/service_ feature.png" alt=""></p>
+<h2 id="四-具体使用"><a href="#四-具体使用" class="headerlink" title="四.具体使用"></a>四.具体使用</h2><h3 id="1-本地Service"><a href="#1-本地Service" class="headerlink" title="1. 本地Service"></a>1. 本地Service</h3><ul>
+<li><strong>步骤1：新建子类继承Service类</strong></li>
+</ul>
+<blockquote>
+<p>需重写父类的onCreate()、onStartCommand()、onDestroy()和onBind()</p>
+</blockquote>
+<p><em>MyService.java</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public class MyService extends Service &#123;</div><div class="line">//启动Service之后，就可以在onCreate()或onStartCommand()方法里去执行一些具体的逻辑</div><div class="line">//由于这里作Demo用，所以只打印一些语句</div><div class="line">    @Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        System.out.println(&quot;执行了onCreat()&quot;);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public int onStartCommand(Intent intent, int flags, int startId) &#123;</div><div class="line">        System.out.println(&quot;执行了onStartCommand()&quot;);</div><div class="line">        return super.onStartCommand(intent, flags, startId);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void onDestroy() &#123;</div><div class="line">        super.onDestroy();</div><div class="line">        System.out.println(&quot;执行了onDestory()&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Nullable</div><div class="line">    @Override</div><div class="line">    public IBinder onBind(Intent intent) &#123;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>步骤2：构建Intent对象，并调用startService()启动Service、stopService停止服务</strong></li>
+</ul>
+<p><strong><em>MainActivity.java</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity implements View.OnClickListener &#123;</div><div class="line"></div><div class="line">    private Button startService;</div><div class="line">    private Button stopService;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        startService = (Button) findViewById(R.id.startService);</div><div class="line">        stopService = (Button) findViewById(R.id.stopService);</div><div class="line"></div><div class="line">        startService.setOnClickListener(this);</div><div class="line">        startService.setOnClickListener(this);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onClick(View v) &#123;</div><div class="line">        switch (v.getId()) &#123;</div><div class="line">            //点击启动Service Button</div><div class="line">            case R.id.startService:</div><div class="line">                //构建启动服务的Intent对象</div><div class="line">                Intent startIntent = new Intent(this, MyService.class);</div><div class="line">                //调用startService()方法-传入Intent对象,以此启动服务</div><div class="line">                startService(startIntent);</div><div class="line">            //点击停止Service Button</div><div class="line">            case R.id.stopService:</div><div class="line">                //构建停止服务的Intent对象</div><div class="line">                Intent stopIntent = new Intent(this, MyService.class);</div><div class="line">                //调用stopService()方法-传入Intent对象,以此停止服务</div><div class="line">                stopService(stopIntent);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>步骤3：在AndroidManifest.xml里注册Service</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    package=&quot;scut.carson_ho.demo_service&quot;&gt;</div><div class="line">    &lt;application</div><div class="line">        android:allowBackup=&quot;true&quot;</div><div class="line">        android:icon=&quot;@mipmap/ic_launcher&quot;</div><div class="line">        android:label=&quot;@string/app_name&quot;</div><div class="line">        android:supportsRtl=&quot;true&quot;</div><div class="line">        android:theme=&quot;@style/AppTheme&quot;&gt;</div><div class="line">        &lt;activity android:name=&quot;.MainActivity&quot;&gt;</div><div class="line">            &lt;intent-filter&gt;</div><div class="line">                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</div><div class="line">                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</div><div class="line">            &lt;/intent-filter&gt;</div><div class="line">        &lt;/activity&gt;</div><div class="line">        //注册Service服务</div><div class="line">        &lt;service android:name=&quot;.MyService&quot;&gt;</div><div class="line">        &lt;/service&gt;</div><div class="line">    &lt;/application&gt;</div><div class="line">&lt;/manifest&gt;</div></pre></td></tr></table></figure>
+<h3 id="2-可通信的服务Service"><a href="#2-可通信的服务Service" class="headerlink" title="2.可通信的服务Service"></a>2.可通信的服务Service</h3><p>上面介绍的Service是最基础的，但只能单机使用，即无法与Activity通信</p>
+<p>接下来将在上面的基础用法上，增设“与Activity通信”的功能，即使用绑定Service服务（Binder类、bindService()、onBind(）、unbindService()、onUnbind()）</p>
+<ul>
+<li><strong>步骤1：在新建子类继承Service类，并新建一个子类继承自Binder类、写入与Activity关联需要的方法、创建实例</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">public class MyService extends Service &#123;</div><div class="line"></div><div class="line">    private MyBinder mBinder = new MyBinder();</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        System.out.println(&quot;执行了onCreat()&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int onStartCommand(Intent intent, int flags, int startId) &#123;</div><div class="line">        System.out.println(&quot;执行了onStartCommand()&quot;);</div><div class="line">        return super.onStartCommand(intent, flags, startId);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onDestroy() &#123;</div><div class="line">        super.onDestroy();</div><div class="line">        System.out.println(&quot;执行了onDestory()&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Nullable</div><div class="line">    @Override</div><div class="line">    public IBinder onBind(Intent intent) &#123;</div><div class="line">        System.out.println(&quot;执行了onBind()&quot;);</div><div class="line">        //返回实例</div><div class="line">        return mBinder;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean onUnbind(Intent intent) &#123;</div><div class="line">        System.out.println(&quot;执行了onUnbind()&quot;);</div><div class="line">        return super.onUnbind(intent);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //新建一个子类继承自Binder类</div><div class="line">    class MyBinder extends Binder &#123;</div><div class="line"></div><div class="line">        public void service_connect_Activity() &#123;</div><div class="line">            System.out.println(&quot;Service关联了Activity,并在Activity执行了Service的方法&quot;);</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>步骤2：在Activity通过调用MyBinder类中的public方法来实现Activity与Service的联系</strong></p>
+<blockquote>
+<p>即实现了Activity指挥Service干什么Service就去干什么的功能</p>
+</blockquote>
+<p><em>MainActivity.java</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity implements View.OnClickListener &#123;</div><div class="line"></div><div class="line">    private Button startService;</div><div class="line">    private Button stopService;</div><div class="line">    private Button bindService;</div><div class="line">    private Button unbindService;</div><div class="line"></div><div class="line">    private MyService.MyBinder myBinder;</div><div class="line"></div><div class="line">    //创建ServiceConnection的匿名类</div><div class="line">    private ServiceConnection connection = new ServiceConnection() &#123;</div><div class="line"></div><div class="line">        //重写onServiceConnected()方法和onServiceDisconnected()方法</div><div class="line">        //在Activity与Service建立关联和解除关联的时候调用</div><div class="line">        @Override</div><div class="line">        public void onServiceDisconnected(ComponentName name) &#123;</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        public void onServiceConnected(ComponentName name, IBinder service) &#123;</div><div class="line">            //实例化Service的内部类myBinder</div><div class="line">            //通过向下转型得到了MyBinder的实例</div><div class="line">            myBinder = (MyService.MyBinder) service;</div><div class="line">            //在Activity调用Service类的方法</div><div class="line">            myBinder.service_connect_Activity();</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        startService = (Button) findViewById(R.id.startService);</div><div class="line">        stopService = (Button) findViewById(R.id.stopService);</div><div class="line"></div><div class="line">        startService.setOnClickListener(this);</div><div class="line">        stopService.setOnClickListener(this);</div><div class="line"></div><div class="line">        bindService = (Button) findViewById(R.id.bindService);</div><div class="line">        unbindService = (Button) findViewById(R.id.unbindService);</div><div class="line"></div><div class="line">        bindService.setOnClickListener(this);</div><div class="line">        unbindService.setOnClickListener(this);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onClick(View v) &#123;</div><div class="line">        switch (v.getId()) &#123;</div><div class="line"></div><div class="line">            //点击启动Service</div><div class="line">            case R.id.startService:</div><div class="line">                //构建启动服务的Intent对象</div><div class="line">                Intent startIntent = new Intent(this, MyService.class);</div><div class="line">                //调用startService()方法-传入Intent对象,以此启动服务</div><div class="line">                startService(startIntent);</div><div class="line">                break;</div><div class="line"></div><div class="line">            //点击停止Service</div><div class="line">            case R.id.stopService:</div><div class="line">                //构建停止服务的Intent对象</div><div class="line">                Intent stopIntent = new Intent(this, MyService.class);</div><div class="line">                //调用stopService()方法-传入Intent对象,以此停止服务</div><div class="line">                stopService(stopIntent);</div><div class="line">                break;</div><div class="line"></div><div class="line">            //点击绑定Service</div><div class="line">            case R.id.bindService:</div><div class="line">                //构建绑定服务的Intent对象</div><div class="line">                Intent bindIntent = new Intent(this, MyService.class);</div><div class="line">                //调用bindService()方法,以此停止服务</div><div class="line"></div><div class="line">                bindService(bindIntent,connection,BIND_AUTO_CREATE);</div><div class="line">                //参数说明</div><div class="line">                //第一个参数:Intent对象</div><div class="line">                //第二个参数:上面创建的Serviceconnection实例</div><div class="line">                //第三个参数:标志位</div><div class="line">                //这里传入BIND_AUTO_CREATE表示在Activity和Service建立关联后自动创建Service</div><div class="line">                //这会使得MyService中的onCreate()方法得到执行，但onStartCommand()方法不会执行</div><div class="line">                break;</div><div class="line"></div><div class="line">            //点击解绑Service</div><div class="line">            case R.id.unbindService:</div><div class="line">                //调用unbindService()解绑服务</div><div class="line">                //参数是上面创建的Serviceconnection实例</div><div class="line">                unbindService(connection);</div><div class="line">                break;</div><div class="line"></div><div class="line">                default:</div><div class="line">                    break;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注意：onStartCommand()方法不会执行</strong></p>
+<h3 id="3-前台Service"><a href="#3-前台Service" class="headerlink" title="3. 前台Service"></a>3. 前台Service</h3><p>前台Service和后台Service（普通）最大的区别就在于：</p>
+<ul>
+<li>前台Service在下拉通知栏有显示通知，但后台Service没有；</li>
+<li>前台Service优先级较高，不会由于系统内存不足而被回收；后台Service优先级较低，当系统出现内存不足情况时，很有可能会被回收</li>
+</ul>
+<p>用法很简单，只需要在原有的Service类对onCreate()方法进行稍微修改即可，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        System.out.println(&quot;执行了onCreat()&quot;);</div><div class="line"></div><div class="line">        //添加下列代码将后台Service变成前台Service</div><div class="line">        //构建&quot;点击通知后打开MainActivity&quot;的Intent对象</div><div class="line">        Intent notificationIntent = new Intent(this,MainActivity.class);</div><div class="line">        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);</div><div class="line"></div><div class="line">        //新建Builer对象</div><div class="line">        Notification.Builder builer = new Notification.Builder(this);</div><div class="line">        builer.setContentTitle(&quot;前台服务通知的标题&quot;);//设置通知的标题</div><div class="line">        builer.setContentText(&quot;前台服务通知的内容&quot;);//设置通知的内容</div><div class="line">        builer.setSmallIcon(R.mipmap.ic_launcher);//设置通知的图标</div><div class="line">        builer.setContentIntent(pendingIntent);//设置点击通知后的操作</div><div class="line"></div><div class="line">        Notification notification = builer.getNotification();//将Builder对象转变成普通的notification</div><div class="line">        startForeground(1, notification);//让Service变成前台Service,并在系统的状态栏显示出来</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="4-远程service"><a href="#4-远程service" class="headerlink" title="4. 远程service"></a>4. 远程service</h3><p>主要和ALDL和IPC相关，这里暂时不做介绍</p>
+<h2 id="五-其他说明"><a href="#五-其他说明" class="headerlink" title="五. 其他说明"></a>五. 其他说明</h2><h3 id="1-Service和线程的关系："><a href="#1-Service和线程的关系：" class="headerlink" title="1. Service和线程的关系："></a>1. <strong>Service和线程的关系：</strong></h3><p>Service是运行在主线程里的，也就是说如果你在Service里编写了非常耗时的代码，程序必定会出现ANR的。</p>
+<p>你可能会惊呼，这不是坑爹么！？那我要Service又有何用呢？其实大家不要把后台和子线程联系在一起就行了，这是两个完全不同的概念。<strong>Android的后台就是指，它的运行是完全不依赖UI的</strong>。即使Activity被销毁，或者程序被关闭，只要进程还在，Service就可以继续运行。比如说一些应用程序，始终需要与服务器之间始终保持着心跳连接，就可以使用Service来实现。你可能又会问，前面不是刚刚验证过Service是运行在主线程里的么？在这里一直执行着心跳连接，难道就不会阻塞主线程的运行吗？当然会，但是我们可以在Service中再创建一个子线程，然后在这里去处理耗时逻辑就没问题了。</p>
+<p>既然在Service里也要创建一个子线程，那为什么不直接在Activity里创建呢？<strong>这是因为Activity很难对Thread进行控制，当Activity被销毁之后，就没有任何其它的办法可以再重新获取到之前创建的子线程的实例。</strong>而且在一个Activity中创建的子线程，另一个Activity无法对其进行操作。但是<strong>Service就不同了，所有的Activity都可以与Service进行关联，然后可以很方便地操作其中的方法</strong>，即使Activity被销毁了，之后只要重新与Service建立关联，就又能够获取到原有的Service中Binder的实例。因此，使用Service来处理后台任务，Activity就可以放心地finish，完全不需要担心无法对后台任务进行控制的情况。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年09月20日 17:08</p>
+        <p>原始链接： <a class="post-url" href="/2017/09/14/Service解析/" title="Service—解析">http://vincent890120.github.io/2017/09/14/Service解析/</a></p>
+        <footer>
+            <a href="http://vincent890120.github.io">
+                <img src="/images/logo.png" alt="vincent">
+                vincent
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://vincent890120.github.io/2017/09/14/Service解析/&title=《Service—解析》 — 懒人小屋&pic=http://vincent890120.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://vincent890120.github.io/2017/09/14/Service解析/&title=《Service—解析》 — 懒人小屋&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://vincent890120.github.io/2017/09/14/Service解析/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Service—解析》 — 懒人小屋&url=http://vincent890120.github.io/2017/09/14/Service解析/&via=http://vincent890120.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://vincent890120.github.io/2017/09/14/Service解析/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://vincent890120.github.io/2017/09/14/Service解析/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/service/" class="color3">service</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Service—解析"><span class="post-toc-text">Service—解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一-service简介"><span class="post-toc-text">一. service简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二-生命周期"><span class="post-toc-text">二. 生命周期</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三-service的分类"><span class="post-toc-text">三. service的分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Service的类型"><span class="post-toc-text">1. Service的类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-特点"><span class="post-toc-text">2. 特点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四-具体使用"><span class="post-toc-text">四.具体使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-本地Service"><span class="post-toc-text">1. 本地Service</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-可通信的服务Service"><span class="post-toc-text">2.可通信的服务Service</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-前台Service"><span class="post-toc-text">3. 前台Service</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-远程service"><span class="post-toc-text">4. 远程service</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五-其他说明"><span class="post-toc-text">五. 其他说明</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Service和线程的关系："><span class="post-toc-text">1. Service和线程的关系：</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/13/Activity的四大启动模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Activity—四大启动模式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 vincent<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://vincent890120.github.io",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/activity/">activity</a><a class="category-link" href="/categories/service/">service</a><a class="category-link" href="/categories/环境搭建/">环境搭建</a><a class="category-link" href="/categories/自定义view/">自定义view</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>

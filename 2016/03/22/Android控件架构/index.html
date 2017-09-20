@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android控件架构 | 懒人小屋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="懒人小屋" />
+  
+  <meta name="description" content="自定义控件，是每一个Android开发工程师打怪升级的必经之路，经常看到gitHub上的大神展示的酷炫的控件，有没有冲动也想自己写一个酷炫的控件让别人膜拜？没有问题，从根本上了解view的创建过程，其实自定义控件并没有你想象的那么复杂，一起玩转View吧！  Android控件的结构控制树要想能够自定义一个控件，我们首先需要做的就是去了解一个控件的结构。对于Android来说，控件大致可以分为两">
+<meta name="keywords" content="view">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android控件架构">
+<meta property="og:url" content="http://vincent890120.github.io/2016/03/22/Android控件架构/index.html">
+<meta property="og:site_name" content="懒人小屋">
+<meta property="og:description" content="自定义控件，是每一个Android开发工程师打怪升级的必经之路，经常看到gitHub上的大神展示的酷炫的控件，有没有冲动也想自己写一个酷炫的控件让别人膜拜？没有问题，从根本上了解view的创建过程，其实自定义控件并没有你想象的那么复杂，一起玩转View吧！  Android控件的结构控制树要想能够自定义一个控件，我们首先需要做的就是去了解一个控件的结构。对于Android来说，控件大致可以分为两">
+<meta property="og:image" content="http://vincent890120.github.io/images/AndroidWidgetStructure/view.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/AndroidWidgetStructure/ui.png">
+<meta property="og:image" content="http://vincent890120.github.io/images/AndroidWidgetStructure/customui.png">
+<meta property="og:updated_time" content="2017-09-20T09:02:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android控件架构">
+<meta name="twitter:description" content="自定义控件，是每一个Android开发工程师打怪升级的必经之路，经常看到gitHub上的大神展示的酷炫的控件，有没有冲动也想自己写一个酷炫的控件让别人膜拜？没有问题，从根本上了解view的创建过程，其实自定义控件并没有你想象的那么复杂，一起玩转View吧！  Android控件的结构控制树要想能够自定义一个控件，我们首先需要做的就是去了解一个控件的结构。对于Android来说，控件大致可以分为两">
+<meta name="twitter:image" content="http://vincent890120.github.io/images/AndroidWidgetStructure/view.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">懒人小屋</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        懒人小屋
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        背着吉他的蝙蝠侠
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//github.com/vincent890120">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Android控件架构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Android控件架构
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/自定义view/">自定义view</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2016-03-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <blockquote>
+<p>自定义控件，是每一个Android开发工程师打怪升级的必经之路，经常看到gitHub上的大神展示的酷炫的控件，有没有冲动也想自己写一个酷炫的控件让别人膜拜？没有问题，从根本上了解view的创建过程，其实自定义控件并没有你想象的那么复杂，一起玩转View吧！</p>
+</blockquote>
+<h2 id="Android控件的结构"><a href="#Android控件的结构" class="headerlink" title="Android控件的结构"></a>Android控件的结构</h2><h3 id="控制树"><a href="#控制树" class="headerlink" title="控制树"></a>控制树</h3><p>要想能够自定义一个控件，我们首先需要做的就是去了解一个控件的结构。对于Android来说，控件大致可以分为两类：ViewGroup和View。其中ViewGroup作为父控件可以包含多个View和ViewGroup，并形成了一个树状的结构，我们称为控制树。控制树的结构如下图所示：<br><img src="/images/AndroidWidgetStructure/view.png" alt="view icon">  </p>
+<p>在每一个控制树的顶端都有一个ViewParent对象，是整个树的核心，所有的交互都由它来管理。</p>
+<h3 id="UI界面框架"><a href="#UI界面框架" class="headerlink" title="UI界面框架"></a>UI界面框架</h3><p>对于一个Activity来说，其UI的界面框架如下：  </p>
+<p><img src="/images/AndroidWidgetStructure/ui.png" alt="view icon"><br>可以看出，每一个Activity都会包含一个Window对象，在Android中，这个具体的Window对象是由PhoneWindow实现的(这里简单说明，不详细讲解，其实PhoneWindow是Window的一个实现类)。在PhoneWindow中将一个DecorView设置为整个界面的根View。<br>DecorView包含两个部分，一个是TitleView，一个是ContentView。相信看到ContentView大家一定会非常熟悉了，它其实是一个ID为content的FrameLayout，我们通常的main_activity就是设置在这个FrameLayout中。那我们进一步将我们的控制树完善一下，一个标准的视图树的模型如下：<br><img src="/images/AndroidWidgetStructure/customui.png" alt="view icon"><br>从上图可以看出，第二层是一个LinearLayout，作为整个树的ViewGroup，它包含两个布局，一个是TitleBar，一个是Content，还记得我们经常会通过设置requestWindowFeature(Window.FEATURE_NO_TITLE)来设置全屏吗？这样屏幕就只会剩下一个Content的View了，但也要注意，我们要在setContentView之前来调用requestWindowFeature的方法才能生效。<br>在代码中，我们在onCreate方法中调用setContentView后，ActivityManagerService会调用onResume的方法，这样，系统才会把整个DecorView添加到PhoneWindow上，显示出来，完成最终界面的绘制。<br>通过  </p>
+<pre><code>ViewGroup content = (ViewGroup)findViewById(android.R.id.content)  
+</code></pre><p>可以得到当前的content，通过以下方式可以获得对应设置的View  </p>
+<pre><code>content.getChild(0)
+</code></pre><p>这篇文章主要是笼统的介绍一下一个标准的Android控件的结构，有很多地方都没有深入讨论，因为我们这个章节主要讨论的是如何去自定义view，所以更底层的内容，可以放到以后去讨论，下面主要会对view的绘制进行一个研究,讨论的重点也会围绕View的三个流程 Measure,Layout,Draw。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年09月20日 17:02</p>
+        <p>原始链接： <a class="post-url" href="/2016/03/22/Android控件架构/" title="Android控件架构">http://vincent890120.github.io/2016/03/22/Android控件架构/</a></p>
+        <footer>
+            <a href="http://vincent890120.github.io">
+                <img src="/images/logo.png" alt="vincent">
+                vincent
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://vincent890120.github.io/2016/03/22/Android控件架构/&title=《Android控件架构》 — 懒人小屋&pic=http://vincent890120.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://vincent890120.github.io/2016/03/22/Android控件架构/&title=《Android控件架构》 — 懒人小屋&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://vincent890120.github.io/2016/03/22/Android控件架构/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android控件架构》 — 懒人小屋&url=http://vincent890120.github.io/2016/03/22/Android控件架构/&via=http://vincent890120.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://vincent890120.github.io/2016/03/22/Android控件架构/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://vincent890120.github.io/2016/03/22/Android控件架构/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/view/" class="color5">view</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android控件的结构"><span class="post-toc-text">Android控件的结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#控制树"><span class="post-toc-text">控制树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#UI界面框架"><span class="post-toc-text">UI界面框架</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2016/03/30/将Android-library分享到jcenter/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Android Studio分享library到jcenter
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2016/03/21/Hellohexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">使用github和hexo搭建属于自己的博客</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 vincent<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://vincent890120.github.io",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/activity/">activity</a><a class="category-link" href="/categories/service/">service</a><a class="category-link" href="/categories/环境搭建/">环境搭建</a><a class="category-link" href="/categories/自定义view/">自定义view</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/activity/" style="font-size: 20px;">activity</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/view/" style="font-size: 20px;">view</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>
