@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>自定义View | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog" />
+  
+  <meta name="description" content="已经基本了解了view的创建过程，接下来我们就可以学习如何去真正意义上的自定义一个View主要有三种方式来自定义一个View，接下来会围绕着三种方式来介绍  View的基本方法常用的回调函数 onFinishInflate( ) 当View中所有的子控件均被映射成xml后触发   onMeasure(int, int) 确定所有子元素的大小  onSizeChanged(int, int, in">
+<meta name="keywords" content="view">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义View">
+<meta property="og:url" content="http://vincent890120.github.io/2016/05/26/自定义View/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="已经基本了解了view的创建过程，接下来我们就可以学习如何去真正意义上的自定义一个View主要有三种方式来自定义一个View，接下来会围绕着三种方式来介绍  View的基本方法常用的回调函数 onFinishInflate( ) 当View中所有的子控件均被映射成xml后触发   onMeasure(int, int) 确定所有子元素的大小  onSizeChanged(int, int, in">
+<meta property="og:updated_time" content="2017-09-20T06:57:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义View">
+<meta name="twitter:description" content="已经基本了解了view的创建过程，接下来我们就可以学习如何去真正意义上的自定义一个View主要有三种方式来自定义一个View，接下来会围绕着三种方式来介绍  View的基本方法常用的回调函数 onFinishInflate( ) 当View中所有的子控件均被映射成xml后触发   onMeasure(int, int) 确定所有子元素的大小  onSizeChanged(int, int, in">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-自定义View" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      自定义View
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/自定义view/">自定义view</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2016-05-26
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <blockquote>
+<p>已经基本了解了view的创建过程，接下来我们就可以学习如何去真正意义上的自定义一个View主要有三种方式来自定义一个View，接下来会围绕着三种方式来介绍</p>
+</blockquote>
+<h2 id="View的基本方法"><a href="#View的基本方法" class="headerlink" title="View的基本方法"></a>View的基本方法</h2><h3 id="常用的回调函数"><a href="#常用的回调函数" class="headerlink" title="常用的回调函数"></a>常用的回调函数</h3><ul>
+<li>onFinishInflate( ) 当View中所有的子控件均被映射成xml后触发  </li>
+<li>onMeasure(int, int) 确定所有子元素的大小 </li>
+<li>onSizeChanged(int, int, int, int) 当view的大小发生变化时触发  </li>
+<li>onLayout(boolean, int, int, int, int) 当View分配所有的子元素的大小和位置时触发  </li>
+<li>onDraw(Canvas) view渲染内容的细节 </li>
+</ul>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p> 在我们创建一个自定义View的时候，Andorid要求我们实现三个View的构造方法，你有没有想过这三个方法到底是什么作用呢？为什么Andorid要求我们去实现三个构造方法呢？</p>
+<pre><code>public CustomLifeCycleView(Context context) {
+    super(context);
+}
+
+public CustomLifeCycleView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+}
+
+public CustomLifeCycleView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+}
+</code></pre><p>现在我们就逐个介绍一下这三个构造函数</p>
+<ol>
+<li><p>CustomLifeCycleView(Context context) </p>
+<p>这个函数最为简单，如果我们想通过代码来创建一个View，就会调用这个构造函数</p>
+</li>
+<li><p>CustomLifeCycleView(Context context, AttributeSet attrs)</p>
+<p> 在这个构造函数里面多了一个AttributeSet的参数，如果我们通过XML来创建一个View的时候，这个参数会将XML里设置的属性传递给构造函数，我们在之后的自定义View的过程中也会经常使用这个参数来设置。如果这个时候我们采用XML的方法来创建一个View，但是没有实现这个构造函数，那么运行的时候就会报错的</p>
+</li>
+<li><p>CustomLifeCycleView(Context context, AttributeSet attrs, int defStyleAttr)</p>
+<p>我觉得最让人没法理解的就是这个方法了，在大多数的情况下，我们都没有使用过这个方法，但是既然Andorid把它搞出来了，肯定是有原因的，不如让我们好好研究一下这个蛋疼的构造函数。<br>可以看见，这个构造函数又多了一新的参数：defStyleAttr<br>在大多数情况下，第三个函数系统是不会调用的，需要显示的调用，例如在第二个函数里调用第三个函数。  </p>
+<p>第三个参数的意义就如同它的名字所说的，是默认的Style，只是这里没有说清楚，这里的默认的Style是指它在当前Application或Activity所用的Theme中的默认Style，以系统中的Button为例说明。<br>​        </p>
+<pre><code>public Button(Context context) {
+    this(context, null);
+}
+
+public Button(Context context, AttributeSet attrs) {
+    this(context, attrs, com.android.internal.R.attr.buttonStyle);
+}
+
+public Button(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+}           
+
+在Code中实例化View会调用第一个构造函数，在XML中定义会调用第二个构造函数，在Button的实现中都调用了第三个构造函数，并且defStyle的值是com.android.internal.R.attr.buttonStyle。
+从文档中第三个构造函数的说明中可以看到，这个构造函数的作用是View的子类提供这个类的基础样式。
+</code></pre><p>   这个是它最根本的作用，现在看起来比较的抽象，我们进一步讨论一下他的作用。第一步我们先俩接一个函数：obtainStyledAtributes</p>
+<pre><code>public TypedArray obtainStyledAttributes (AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes)
+</code></pre><p>​        </p>
+<ul>
+<li>set：属性值的集合</li>
+<li>attrs：我们要获取的属性的资源ID的一个数组，如同ContextProvider中请求数据库时的Projection数组，就是从一堆属性中我们希望查询什么属性的值</li>
+<li>defStyleAttr：这个是当前Theme中的一个attribute，是指向style的一个引用，当在layout xml中和style中都没有为View指定属性时，会从Theme中这个attribute指向的Style中查找相应的属性值，这就是defStyle的意思，如果没有指定属性值，就用这个值，所以是默认值，但这个attribute要在Theme中指定，且是指向一个Style的引用，如果这个参数传入0表示不向Theme中搜索默认值</li>
+<li>defStyleRes：这个也是指向一个Style的资源ID，但是仅在defStyleAttr为0或defStyleAttr不为0但Theme中没有为defStyleAttr属性赋值时起作用</li>
+</ul>
+<p>知道了这个函数，我们就可以进一步说明了。其实第三个构造函数的作用就是提供一个基础的属性值。但是，为什么我们有的时候直接设置属性值，却并不起作用呢，别忘了，我们这个值是基础属性值，既然是基础，必然就会有一个优先级，因为同一个属性值在多个地方都可以进行定义的哦！<br>先直接给出结论：</p>
+<p>XML中定义&gt;style定义&gt;defStyleAttr和defStyleRes指定的默认值&gt;在Theme中指定的值<br>上面这个结论，相信大家一定看的很清楚了，XML，style和Theme大家经常使用，defStyleAttr和defStyleRes在前面的参数说明中已经说了。</p>
+<p>这是为什么呢？</p>
+<p>代码是最好的语言，我们直接通过代码来分析一下，属性值的优先级<br>首先定义style和attrs</p>
+<pre><code>attrs.xml
+&lt;resources&gt;
+    &lt;declare-styleable name=&quot;Customize&quot;&gt;
+        &lt;attr name=&quot;attr_one&quot; format=&quot;string&quot; /&gt;
+        &lt;attr name=&quot;attr_two&quot; format=&quot;string&quot; /&gt;
+        &lt;attr name=&quot;attr_three&quot; format=&quot;string&quot; /&gt;
+        &lt;attr name=&quot;attr_four&quot; format=&quot;string&quot; /&gt;
+    &lt;/declare-styleable&gt;
+    &lt;attr name=&quot;CustomizeStyle&quot; format=&quot;reference&quot; /&gt;
+&lt;/resources&gt;
+
+styles.xml
+&lt;resources&gt;
+    &lt;style name=&quot;AppBaseTheme&quot; parent=&quot;android:Theme.Light&quot;&gt;
+    &lt;/style&gt;
+    &lt;style name=&quot;AppTheme&quot; parent=&quot;AppBaseTheme&quot;&gt;
+        &lt;item name=&quot;attr_one&quot;&gt;attr one from theme&lt;/item&gt;
+        &lt;item name=&quot;attr_two&quot;&gt;attr two from theme&lt;/item&gt;
+        &lt;item name=&quot;attr_three&quot;&gt;attr three from theme&lt;/item&gt;
+        &lt;item name=&quot;CustomizeStyle&quot;&gt;@style/CustomizeStyleInTheme&lt;/item&gt;
+    &lt;/style&gt;
+    &lt;style name=&quot;CustomizeStyleInTheme&quot;&gt;
+        &lt;item name=&quot;attr_one&quot;&gt;attr one from theme reference&lt;/item&gt;
+        &lt;item name=&quot;attr_two&quot;&gt;attr two from theme reference&lt;/item&gt;
+        &lt;item name=&quot;attr_three&quot;&gt;attr three from theme reference&lt;/item&gt;
+    &lt;/style&gt;
+    &lt;style name=&quot;ThroughStyle&quot;&gt;
+        &lt;item name=&quot;attr_one&quot;&gt;attr one from style&lt;/item&gt;
+        &lt;item name=&quot;attr_two&quot;&gt;attr two from style&lt;/item&gt;
+    &lt;/style&gt;
+    &lt;style name=&quot;DefaultCustomizeStyle&quot;&gt;
+        &lt;item name=&quot;attr_one&quot;&gt;attr one from defalut style res&lt;/item&gt;
+        &lt;item name=&quot;attr_two&quot;&gt;attr two from defalut style res&lt;/item&gt;
+        &lt;item name=&quot;attr_three&quot;&gt;attr three from defalut style res&lt;/item&gt;
+    &lt;/style&gt;
+&lt;/resources&gt;
+</code></pre></li>
+</ol>
+<pre><code>然后定义对应的activity
+
+    &lt;com.example.vincent.customview.View.CustomLifeCycleView
+          android:layout_width=&quot;match_parent&quot;
+             android:layout_height=&quot;match_parent&quot;
+          ad:attr_one=&quot;attr one in xml&quot;
+          style=&quot;@style/ThroughStyle&quot; /&gt;    
+</code></pre><p>   在自定义的view中对这几个属性值进行打印，可以分析，<br>​<br>           public CustomLifeCycleView(Context context, AttributeSet attrs) {<br>            this(context, attrs, R.attr.CustomizeStyle);<br>        }</p>
+<pre><code>public CustomLifeCycleView(Context context, AttributeSet attrs, 
+int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, 
+        R.styleable.Customize, defStyleAttr,
+        R.style.DefaultCustomizeStyle);
+           String one = a.getString(R.styleable.Customize_attr_one);
+        String two = a.getString(R.styleable.Customize_attr_two);
+        String three = a.getString(R.styleable.Customize_attr_three);
+        String four = a.getString(R.styleable.Customize_attr_four);
+        Log.i(TAG, &quot;one:&quot; + one);
+        Log.i(TAG, &quot;two:&quot; + two);
+        Log.i(TAG, &quot;three:&quot; + three);
+        Log.i(TAG, &quot;four:&quot; + four);
+        a.recycle();
+}
+</code></pre><p>打印的结果<br>​<br>         one:attr one in xml<br>          two:attr two from style<br>         three:attr three from theme reference<br>         four:null</p>
+<ul>
+<li>attr_one同时在xml、style、defStyleAttr、defStyleRes与Theme中直接定义了值，但起作用的是在xml中的定义</li>
+<li>attr_two同时在style、defStyleAttr、defStyleRes与Theme中直接定义了值，但起用的是在style中的定义</li>
+<li>attr_three同时在defStyleAttr、defStyleRes与Theme中直接定义了值，但起作用的是defStyleAttr</li>
+<li><p>attr_four在defStyleRes中定义了，但结果仍是0。</p>
+<p>最终结论：</p>
+<ol>
+<li>要为自定义View自定义属性，可以通过declare-styleable声明需要的属性</li>
+<li>为了在Theme设置View的默认样式，可以同时定义一个format为reference的属性att_a，在定义Theme时为这个attribute指定一个Style，并且在View的第二个构造函数中将R.attr.attr_a 作为第三个参数调用第三个构造函数</li>
+<li>可以定义一个Style作为Theme中没有定义attr_a时View属性的默认值。</li>
+<li>可以在Theme中直接为属性赋值，但优先级最低</li>
+<li>当defStyleAttr（即View的构造函数的第三个参数）不为0且在Theme中有为这个attr赋值时，defStyleRes（通过obtainStyledAttributes的第四个参数指定）不起作用</li>
+<li>属性值定义的优先级：xml&gt;style&gt;Theme中的默认Sytle&gt;默认Style（通过obtainStyledAttributes的第四个参数指定）&gt;在Theme中直接指定属性值</li>
+</ol>
+</li>
+</ul>
+<h2 id="自定义控件"><a href="#自定义控件" class="headerlink" title="自定义控件"></a>自定义控件</h2><p> 目前来说，自定义的控件主要采用三种方式：</p>
+<ol>
+<li>对现有的控件进行扩展</li>
+<li>通过组合的方式来实现新的控件</li>
+<li>重写View来实现新的控件</li>
+</ol>
+<p>现在，就分别来讨论这几种方式</p>
+<h3 id="对现有的控件进行扩展"><a href="#对现有的控件进行扩展" class="headerlink" title="对现有的控件进行扩展"></a>对现有的控件进行扩展</h3><p>这种方式主要是对一些已有的基础控件进行扩展，例如TextView，Button等，我们可以通过对当前的控件进行扩展，来使得该控件变成我们想要的样子，而且还保证了控件的原始的功能</p>
+<p>最简单的例子，如果我们想让一个TextView能够展示特殊的字体，或者展示我们设置的背景，但它的基本功能还是一个TextView，我们还是按照一个TextView的方式来使用它，这个时候我们就可以使用这种方式来创建一个自己的控件。</p>
+<p>这里，我们通过一个例子来学习如何对现有控件进行扩展。我们来自定义一个字体可以渐变的TextView，这个效果在很多地方都会用到。</p>
+<p>其实很简单，回想一下，一个控件的基础是View，它的绘制的过程我们之前已经讨论过了。我们只需要在回调函数里对控件进行设计即可。在原生的TextView里面，通过onDraw方法来绘制显示的文字。我们要想修改TextView的效果，可以在onDraw方法中来实现。</p>
+<pre><code> @Override
+protected void onDraw(Canvas canvas) {
+     super.onDraw(canvas);
+}
+</code></pre><p>super.onDraw是TextView用来实现原生的功能的，我们可以在这个方法之前或者之后调用这个方法。<br>我们可以先设置一下这个TextView的背景。<br>​<br>         @Override<br>    protected void onDraw(Canvas canvas) {<br>        Paint mPaint1 = new Paint();<br>        mPaint1.setColor(getResources().getColor(android.R.color.holo_blue_light));<br>        mPaint1.setStyle(Paint.Style.FILL);</p>
+<pre><code>    Paint mPaint2 = new Paint();
+    mPaint2.setColor(getResources().getColor(android.R.color.holo_red_light));
+    mPaint2.setStyle(Paint.Style.FILL);
+
+    canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), mPaint1);
+    canvas.drawRect(10, 10, getMeasuredWidth() - 10, getMeasuredHeight() - 10, mPaint2);
+
+    super.onDraw(canvas);
+}
+</code></pre><p>可以看出，绘制了两个大小不同的矩形，形成一个重叠的效果，然后再调用super.onDraw方法，让系统执行绘制文字的工作。这样，我们就通过很简单的方式，可以改变这个控件的绘制行为，形成一个新的控件。是不是觉得很简单啊？</p>
+<p>这个例子比较简单，还记得我们之前说的那个动态文字闪动的效果吗？其实也很简单，给TextView设置LinearGradient属性。然后在onDraw方法，通过矩阵不断移动，不断重新绘制</p>
+<pre><code>     @Override
+protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
+    if (mViewWith == 0) {
+        mViewWith = getMeasuredWidth();
+        if (mViewWith &gt; 0) {
+            mPaint = getPaint();
+            /**
+             * LinearGradient第一个和第二个参数表示颜色渐变的起点 第三、第四表示颜色渐变的终点 第五个参数表示渐变的颜色
+             * 第六个参数可以为空,表示坐标,值为0-1 new float[] {0.25f, 0.5f, 0.75f, 1 }
+             *如果这是空的，颜色均匀分布，沿梯度线
+             *  第七个表示平铺方式
+             * CLAMP重复最后一个颜色至最后
+             * MIRROR重复着色的图像水平或垂直方向已镜像方式填充会有翻转效果
+             *REPEAT重复着色的图像水平或垂直方向
+             */
+            mLinearGradient = new LinearGradient(0, 0, mViewWith, 0,
+                    new int[]{Color.parseColor(&quot;#7B68EE&quot;), 
+                    Color.parseColor(&quot;#FFC0CB&quot;), 
+                    Color.parseColor(&quot;#7B68EE&quot;)},
+                    null, Shader.TileMode.MIRROR);
+            mPaint.setShader(mLinearGradient);
+            mMatrix = new Matrix();
+        }
+    }
+}
+@Override
+protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+
+    if (mMatrix != null) {
+        mTranleate += mViewWith / 14;
+        if (mTranleate &gt; 2 * mViewWith) {
+            mTranleate = -mViewWith;
+        }
+        mMatrix.setTranslate(mTranleate, 0);
+        mLinearGradient.setLocalMatrix(mMatrix);
+        postInvalidateDelayed(100);
+    }
+}
+</code></pre><p>这里面涉及很多的画图的方式，这里不详细说明，不过如果想要更好的设计自己的控件，对Android的画图也是需要详细的了解的，这个问题我们可以在之后详细说明。</p>
+<p>这个就是通过扩展原有控件来自定义自己的控件。还是很简单的，在onDraw方法里对控件进行重新的绘制，但一定注意保留super.onDraw方法，这样原有的控件的功能也会保留。</p>
+<h3 id="复合控件-1-1-gt-2"><a href="#复合控件-1-1-gt-2" class="headerlink" title="复合控件 1+1&gt;2"></a>复合控件 1+1&gt;2</h3><p>这个章节我觉得是自定义控件的重头戏，我把它起名为1+1&gt;2，为什么这么说呢？因为其实在大多数的时候，我们可能并不是十分的了解Android的绘图技巧，或者有些需求是需要我们多个控件组合成一个新的控件。这时，往往就需要多个控件的配合使用。<br>往往自定义控件的一个原因就是，有些控件会重复使用。例如我们经常看到的TitleBar，中间会有一个标题栏，左右通常会有一个按钮，这个是大部分app都会有的，但是不同的界面可能会对标题内容，字体颜色有所不同。按钮的回调也会有所不同，所以这个时候自定义一个TitleBar就显得十分的重要了。</p>
+<h4 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h4><p>我们在自定义控件的时候，往往会传递一些属性值。在Andorid里面，我们可以通过values下面的文件attrs.xml来定义属性值。<br>自定义属性值还是很容易的，主要是以下几步:</p>
+<ol>
+<li>自定义一个CustomView类</li>
+<li>编写values/attrs.xml，在其中编写declare-styleable和attr等标签元素</li>
+<li>在布局文件中CustomView使用自定义的属性，这个时候不要忘记配置命名空间<br>xmlns:custom=”<a href="http://schemas.android.com/apk/res-auto" target="_blank" rel="external">http://schemas.android.com/apk/res-auto</a>“</li>
+<li>在CustomView的构造方法中通过TypedArray获取</li>
+</ol>
+<p>在这个例子中，我们自定义的属性值如下<br>​<br>    &lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <resources><br>        <declare-styleable name="TopBar"><br>            <attr name="title" format="string"><br>            <attr name="titleTextSize" format="dimension"><br>            <attr name="titleTextColor" format="color"><br>            <attr name="leftTextColor" format="color"><br>            <attr name="leftBackground" format="reference|color"><br>            <attr name="leftText" format="string"><br>            <attr name="rightTextColor" format="color"><br>            <attr name="rightBackground" format="reference|color"><br>            <attr name="rightText" format="string"><br>        </attr></attr></attr></attr></attr></attr></attr></attr></attr></declare-styleable><br>    </resources></p>
+<p>上面的属性值的含义我们在后面会详细解释</p>
+<p>在布局文件中，设置相应的属性值</p>
+<pre><code>&lt;com.xys.mytopbar.Topbar xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:custom=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:id=&quot;@+id/topBar&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;40dp&quot;
+    custom:leftBackground=&quot;@drawable/blue_button&quot;
+    custom:leftText=&quot;Back&quot;
+    custom:leftTextColor=&quot;#FFFFFF&quot;
+    custom:rightBackground=&quot;@drawable/blue_button&quot;
+    custom:rightText=&quot;More&quot;
+    custom:rightTextColor=&quot;#FFFFFF&quot;
+    custom:title=&quot;自定义标题&quot;
+    custom:titleTextColor=&quot;#123412&quot;
+    custom:titleTextSize=&quot;15sp&quot;&gt;
+&lt;/com.xys.mytopbar.Topbar&gt;
+</code></pre><p>接下来看看如何获取这些属性值</p>
+<pre><code> TypedArray ta = context.obtainStyledAttributes(attrs,
+        R.styleable.TopBar);
+// 从TypedArray中取出对应的值来为要设置的属性赋值
+mLeftTextColor = ta.getColor(
+        R.styleable.TopBar_leftTextColor, 0);
+mLeftBackground = ta.getDrawable(
+        R.styleable.TopBar_leftBackground);
+mLeftText = ta.getString(R.styleable.TopBar_leftText);
+
+mRightTextColor = ta.getColor(
+        R.styleable.TopBar_rightTextColor, 0);
+mRightBackground = ta.getDrawable(
+        R.styleable.TopBar_rightBackground);
+mRightText = ta.getString(R.styleable.TopBar_rightText);
+
+mTitleTextSize = ta.getDimension(
+        R.styleable.TopBar_titleTextSize, 10);
+mTitleTextColor = ta.getColor(
+        R.styleable.TopBar_titleTextColor, 0);
+mTitle = ta.getString(R.styleable.TopBar_title);
+
+// 获取完TypedArray的值后，一般要调用
+// recyle方法来避免重新创建的时候的错误
+ta.recycle();
+</code></pre><p>我们是通过TypedArray这个参数来获取相应的属性值，是不是很简单啊。</p>
+<p>使用的方式还是很简单的，这里我们讨论一个大家都不注意的一个细节：TypedArray<br>我们通常都是在构造函数中，通过TypedArray来获取对应的属性值</p>
+<pre><code>TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.TopBar);
+</code></pre><p>其实，大家有没有想过我们在view的构造函数中，已存在一个参数AttributeSet，这个参数似乎也是关于属性值的，它的作用是什么，我们为什么不直接用这个值呢？</p>
+<p>看看一个例子</p>
+<pre><code>public MyTextView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+
+    int count = attrs.getAttributeCount();
+    for (int i = 0; i &lt; count; i++) {
+        String attrName = attrs.getAttributeName(i);
+        String attrVal = attrs.getAttributeValue(i);
+        Log.e(TAG, &quot;attrName = &quot; + attrName + &quot; , attrVal = &quot; + attrVal);
+    }
+
+    // ==&gt;use typedarray ...
+
+}
+</code></pre><p>输出<br>​<br>    MyTextView(4136): attrName = layout_width , attrVal = 100.0dip<br>    MyTextView(4136): attrName = layout_height , attrVal = 200.0dip<br>    MyTextView(4136): attrName = text , attrVal = helloworld<br>    MyTextView(4136): attrName = testAttr , attrVal = 520<br>看起来似乎AttributeSet和TypeArray没有什么区别啊，别急，我们换个角度看看，我们修改一下属性值的引用方式，直接引用对象。</p>
+<pre><code>&lt;com.example.test.MyTextView
+android:layout_width=&quot;@dimen/dp100&quot;
+android:layout_height=&quot;@dimen/dp200&quot;
+zhy:testAttr=&quot;520&quot;
+zhy:text=&quot;@string/hello_world&quot; /&gt;
+</code></pre><p> 运行的结果变为了</p>
+<pre><code> MyTextView(4692): attrName = layout_width , attrVal = @2131165234
+MyTextView(4692): attrName = layout_height , attrVal = @2131165235
+MyTextView(4692): attrName = text , attrVal = @2131361809
+MyTextView(4692): attrName = testAttr , attrVal = 520
+&gt;&gt;use typedarray
+MyTextView(4692): text = Hello world! , textAttr = 520
+</code></pre><p>看到这个，你是不是明白了什么，当我们引用的是对象的时候，AttributeSet得到的value是对象的名称</p>
+<p>总结一下：</p>
+<p>其实，TypedArray其实是用来简化我们的工作的，比如上例，如果布局中的属性的值是引用类型（比如：@dimen/dp100），如果使用AttributeSet去获得最终的像素值，那么需要第一步拿到id，第二步再去解析id。而TypedArray正是帮我们简化了这个过程。</p>
+<p>如果通过AttributeSet获取最终的像素值的过程：</p>
+<pre><code>int widthDimensionId =  attrs.getAttributeResourceValue(0, -1);
+Log.e(TAG, &quot;layout_width= &quot;+getResources().getDimension(widthDimensionId));
+</code></pre><p> 这回你可以和别人吹B，你知道TypedArray的作用了。</p>
+<p>上面我们也可以看到，在attrs中，我们可以定义多种属性值，我们可以总结一下各种属性值的定义方式和使用方式。</p>
+<ol>
+<li><p>reference：参考某一资源ID。</p>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;名称&quot;&gt;
+       &lt;attr name = &quot;background&quot; format = &quot;reference&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;ImageView
+        android:layout_width = &quot;42dip&quot;
+        android:layout_height = &quot;42dip&quot;
+        android:background = &quot;@drawable/图片ID&quot;/&gt;
+</code></pre></li>
+<li><p>color：颜色值。</p>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;名称&quot;&gt;
+       &lt;attr name = &quot;textColor&quot; format = &quot;color&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;TextView
+         android:layout_width = &quot;42dip&quot;
+         android:layout_height = &quot;42dip&quot;
+         android:textColor = &quot;#00FF00&quot;/&gt;
+</code></pre></li>
+<li><p>boolean：布尔值。<br>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;名称&quot;&gt;
+       &lt;attr name = &quot;focusable&quot; format = &quot;boolean&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;Button
+        android:layout_width = &quot;42dip&quot;
+        android:layout_height = &quot;42dip&quot;
+        android:focusable = &quot;true&quot;/&gt;
+</code></pre><ol>
+<li>dimension：尺寸值。</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;名称&quot;&gt;
+       &lt;attr name = &quot;layout_width&quot; format = &quot;dimension&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;Button
+        android:layout_width = &quot;42dip&quot;
+        android:layout_height = &quot;42dip&quot;/&gt;
+</code></pre><ol>
+<li>float：浮点值。</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;AlphaAnimation&quot;&gt;
+       &lt;attr name = &quot;fromAlpha&quot; format = &quot;float&quot; /&gt;
+       &lt;attr name = &quot;toAlpha&quot; format = &quot;float&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;alpha
+       android:fromAlpha = &quot;1.0&quot;
+       android:toAlpha = &quot;0.7&quot;/&gt;
+</code></pre><ol>
+<li>integer：整型值。</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;AnimatedRotateDrawable&quot;&gt;
+       &lt;attr name = &quot;frameDuration&quot; format=&quot;integer&quot; /&gt;
+       &lt;attr name = &quot;framesCount&quot; format=&quot;integer&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;animated-rotate
+       xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot;  
+       android:drawable = &quot;@drawable/图片ID&quot;  
+       android:pivotX = &quot;50%&quot;  
+       android:pivotY = &quot;50%&quot;  
+       android:framesCount = &quot;12&quot;  
+       android:frameDuration = &quot;100&quot;/&gt;
+</code></pre><ol>
+<li>string：字符串。</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;MapView&quot;&gt;
+       &lt;attr name = &quot;apiKey&quot; format = &quot;string&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;com.google.android.maps.MapView
+        android:layout_width = &quot;fill_parent&quot;
+        android:layout_height = &quot;fill_parent&quot;
+        android:apiKey = &quot;0jOkQ80oD1JL9C6HAja99uGXCRiS2CGjKO_bc_g&quot;/&gt; 
+</code></pre><ol>
+<li><p>fraction：百分数。</p>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name=&quot;RotateDrawable&quot;&gt;
+       &lt;attr name = &quot;fromDegrees&quot; format = &quot;float&quot; /&gt;
+       &lt;attr name = &quot;toDegrees&quot; format = &quot;float&quot; /&gt;
+       &lt;attr name = &quot;pivotX&quot; format = &quot;fraction&quot; /&gt;
+       &lt;attr name = &quot;pivotY&quot; format = &quot;fraction&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre></li>
+</ol>
+<p>（2）属性使用：</p>
+<pre><code>&lt;rotate
+     xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot;                  
+     android:fromDegrees = &quot;0&quot; 
+     android:toDegrees = &quot;360&quot;
+     android:pivotX = &quot;200%&quot;
+     android:pivotY = &quot;300%&quot; 
+     android:duration = &quot;5000&quot;/&gt;  
+</code></pre><ol>
+<li>enum：枚举值。</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name=&quot;名称&quot;&gt;
+       &lt;attr name=&quot;orientation&quot;&gt;
+              &lt;enum name=&quot;horizontal&quot; value=&quot;0&quot; /&gt;
+              &lt;enum name=&quot;vertical&quot; value=&quot;1&quot; /&gt;
+       &lt;/attr&gt;            
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;LinearLayout
+        xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot;
+        android:orientation = &quot;vertical&quot;
+        android:layout_width = &quot;fill_parent&quot;
+        android:layout_height = &quot;fill_parent&quot;&gt;
+&lt;/LinearLayout&gt; 
+</code></pre><ol>
+<li><p>flag：位或运算。</p>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name=&quot;名称&quot;&gt;
+       &lt;attr name=&quot;windowSoftInputMode&quot;&gt;
+               &lt;flag name = &quot;stateUnspecified&quot; value = &quot;0&quot; /&gt;
+               &lt;flag name = &quot;stateUnchanged&quot; value = &quot;1&quot; /&gt;
+               &lt;flag name = &quot;stateHidden&quot; value = &quot;2&quot; /&gt;
+               &lt;flag name = &quot;stateAlwaysHidden&quot; value = &quot;3&quot; /&gt;
+               &lt;flag name = &quot;stateVisible&quot; value = &quot;4&quot; /&gt;
+               &lt;flag name = &quot;stateAlwaysVisible&quot; value = &quot;5&quot; /&gt;
+               &lt;flag name = &quot;adjustUnspecified&quot; value = &quot;0x00&quot; /&gt;
+               &lt;flag name = &quot;adjustResize&quot; value = &quot;0x10&quot; /&gt;
+               &lt;flag name = &quot;adjustPan&quot; value = &quot;0x20&quot; /&gt;
+               &lt;flag name = &quot;adjustNothing&quot; value = &quot;0x30&quot; /&gt;
+        &lt;/attr&gt;         
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;activity
+       android:name = &quot;.StyleAndThemeActivity&quot;
+       android:label = &quot;@string/app_name&quot;
+       android:windowSoftInputMode = &quot;stateUnspecified | 
+       stateUnchanged　|　stateHidden&quot;&gt;
+       &lt;intent-filter&gt;
+              &lt;action android:name = &quot;android.intent.action.MAIN&quot; /&gt;
+              &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+       &lt;/intent-filter&gt;
+ &lt;/activity&gt;
+</code></pre><p>注意：</p>
+<p>属性定义时可以指定多种类型值。</p>
+</li>
+</ol>
+<p>（1）属性定义：</p>
+<pre><code>&lt;declare-styleable name = &quot;名称&quot;&gt;
+       &lt;attr name = &quot;background&quot; format = &quot;reference|color&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>（2）属性使用：</p>
+<pre><code>&lt;ImageView
+        android:layout_width = &quot;42dip&quot;
+        android:layout_height = &quot;42dip&quot;
+        android:background = &quot;@drawable/图片ID|#00FF00&quot;/&gt;   
+</code></pre><p>属性值的获取也很简单，我们可以在构造函数中获取TypedArray，通过TypedArray的get方法可以获取对应的值，这个比较简单，可以在第二个或者第三个构造函数中，通过context.obtainStyledAttributes方法来得到TypedArray<br>​<br>​        </p>
+<pre><code> TypedArray ta = context.obtainStyledAttributes(attrs,
+        R.styleable.属性分组的名字);
+// 从TypedArray中取出对应的值来为要设置的属性赋值
+textColor = ta.getColor(
+        R.styleable.属性分组名字_属性值名字, 0);
+</code></pre><p>其中的getColor可以替换成你想要获得的属性值的类型，比如getString，getDrawable等等。</p>
+</li>
+</ol>
+<p>好了，这个属性值的部分就介绍到这里，这个还是比较简单的。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2017年09月20日 14:57</p>
+        <p>原始链接： <a class="post-url" href="/2016/05/26/自定义View/" title="自定义View">http://vincent890120.github.io/2016/05/26/自定义View/</a></p>
+        <footer>
+            <a href="http://vincent890120.github.io">
+                <img src="/images/logo.png" alt="John Doe">
+                John Doe
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://vincent890120.github.io/2016/05/26/自定义View/&title=《自定义View》 — Hexo&pic=http://vincent890120.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://vincent890120.github.io/2016/05/26/自定义View/&title=《自定义View》 — Hexo&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://vincent890120.github.io/2016/05/26/自定义View/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《自定义View》 — Hexo&url=http://vincent890120.github.io/2016/05/26/自定义View/&via=http://vincent890120.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://vincent890120.github.io/2016/05/26/自定义View/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://vincent890120.github.io/2016/05/26/自定义View/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/view/" class="color5">view</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#View的基本方法"><span class="post-toc-text">View的基本方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#常用的回调函数"><span class="post-toc-text">常用的回调函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造方法"><span class="post-toc-text">构造方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自定义控件"><span class="post-toc-text">自定义控件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对现有的控件进行扩展"><span class="post-toc-text">对现有的控件进行扩展</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#复合控件-1-1-gt-2"><span class="post-toc-text">复合控件 1+1>2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#自定义属性"><span class="post-toc-text">自定义属性</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/21/Hellohexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">使用github和hexo搭建属于自己的博客</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2017 John Doe<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://vincent890120.github.io",
+      animate: true,
+      isHome: false,
+      share: true
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/环境搭建/">环境搭建</a><a class="category-link" href="/categories/自定义view/">自定义view</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/view/" style="font-size: 10px;">view</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/view/" style="font-size: 10px;">view</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+  </div>
+</body>
+</html>
