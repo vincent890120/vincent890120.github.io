@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://vincent890120.github.io/2017/09/13/Activity的四大启动模式/index.html">
 <meta property="og:site_name" content="懒人小屋">
 <meta property="og:description" content="Activity—四大启动模式 在android开发，activity的跳转是最常用的功能，启动模式可以说是敲门的方式，这一节我们好好总结一下activity的四大敲门方式。  一、基础概念在开始介绍启动模式之前，我们先了解一下相关的一些基本概念，不然后面会一脸懵逼 1.任务栈任务栈Task，是一种用来放置Activity实例的容器，他是以栈的形式进行盛放，也就是所谓的先进后出，主要有2个基本操作">
-<meta property="og:updated_time" content="2017-09-20T09:08:23.000Z">
+<meta property="og:updated_time" content="2017-09-22T03:54:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity—四大启动模式">
 <meta name="twitter:description" content="Activity—四大启动模式 在android开发，activity的跳转是最常用的功能，启动模式可以说是敲门的方式，这一节我们好好总结一下activity的四大敲门方式。  一、基础概念在开始介绍启动模式之前，我们先了解一下相关的一些基本概念，不然后面会一脸懵逼 1.任务栈任务栈Task，是一种用来放置Activity实例的容器，他是以栈的形式进行盛放，也就是所谓的先进后出，主要有2个基本操作">
@@ -180,8 +180,10 @@
 <p>使用SingleTask模式来启动一个Activity，与指定android：launchMode=“singleTask”效果相同。</p>
 <p><strong>FLAG_ACTIVITY_NO_HISTORY</strong></p>
 <p>Activity使用这种模式启动Activity，当该Activity启动其他Activity后，该Activity就消失了，不会保留在Activity栈中。</p>
-<p>注意：<strong>LaunchMode与StartActivityForResult</strong></p>
-<p>我们在开发过程中经常会用到StartActivityForResult方法启动一个Activity，然后在onActivityResult()方法中可以接收到上个页面的回传值，但你有可能遇到过拿不到返回值的情况，那有可能是因为Activity的LaunchMode设置为了singleTask。5.0之后，android的LaunchMode与StartActivityForResult的关系发生了一些改变。</p>
+<p><strong>FLAG_ACTIVITY_CLEAR_TASK</strong></p>
+<p>如果在调用Context.startActivity时传递这个标记，将会导致任何用来放置该activity的已经存在的task里面的activity先清空，然后该activity再在该task中启动，也就是说，这个新启动的activity变成了这个空task的根activity。所有老的activity都结束掉。该标志位必须和FLAG_ACTIVITY_NEW_TASK一起使用。</p>
+<p>一般登录页面使用该种启动方式。</p>
+<h3 id="四、其他"><a href="#四、其他" class="headerlink" title="四、其他"></a>四、其他</h3><h4 id="1-LaunchMode与StartActivityForResult"><a href="#1-LaunchMode与StartActivityForResult" class="headerlink" title="1. LaunchMode与StartActivityForResult"></a>1. <strong>LaunchMode与StartActivityForResult</strong></h4><p>我们在开发过程中经常会用到StartActivityForResult方法启动一个Activity，然后在onActivityResult()方法中可以接收到上个页面的回传值，但你有可能遇到过拿不到返回值的情况，那有可能是因为Activity的LaunchMode设置为了singleTask。5.0之后，android的LaunchMode与StartActivityForResult的关系发生了一些改变。</p>
 <p>这是因为ActivityStackSupervisor类中的startActivityUncheckedLocked方法在5.0中进行了修改。在5.0之前，当启动一个Activity时，系统将首先检查Activity的launchMode，如果为A页面设置为SingleInstance或者B页面设置为singleTask或者singleInstance,则会在LaunchFlags中加入FLAG_ACTIVITY_NEW_TASK标志，而如果含有FLAG_ACTIVITY_NEW_TASK标志的话，onActivityResult将会立即接收到一个cancle的信息，而5.0之后这个方法做了修改，修改之后即便启动的页面设置launchMode为singleTask或singleInstance，onActivityResult依旧可以正常工作，也就是说无论设置哪种启动方式，StartActivityForResult和onActivityResult()这一组合都是有效的。所以如果你目前正好基于5.0做相关开发，不要忘了向下兼容，这里有个坑请注意避让。</p>
 <p>本文参考阅读：</p>
 <p><a href="http://www.jianshu.com/p/2a9fcf3c11e4" target="_blank" rel="external">http://www.jianshu.com/p/2a9fcf3c11e4</a></p>
@@ -189,7 +191,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2017年09月20日 17:08</p>
+        <p>最后更新： 2017年09月22日 11:54</p>
         <p>原始链接： <a class="post-url" href="/2017/09/13/Activity的四大启动模式/" title="Activity—四大启动模式">http://vincent890120.github.io/2017/09/13/Activity的四大启动模式/</a></p>
         <footer>
             <a href="http://vincent890120.github.io">
@@ -272,7 +274,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Activity—四大启动模式"><span class="post-toc-text">Activity—四大启动模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、基础概念"><span class="post-toc-text">一、基础概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-任务栈"><span class="post-toc-text">1.任务栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-任务栈的作用"><span class="post-toc-text">2.任务栈的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-taskAffinity"><span class="post-toc-text">3.taskAffinity</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、四大启动模式"><span class="post-toc-text">二、四大启动模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-standard"><span class="post-toc-text">1.standard</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-singleTop"><span class="post-toc-text">2.singleTop</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-singleTask"><span class="post-toc-text">3.singleTask</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#栈内复用模式"><span class="post-toc-text">栈内复用模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-singleInstance"><span class="post-toc-text">4.singleInstance</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、设置方式"><span class="post-toc-text">三、设置方式</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Activity—四大启动模式"><span class="post-toc-text">Activity—四大启动模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一、基础概念"><span class="post-toc-text">一、基础概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-任务栈"><span class="post-toc-text">1.任务栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-任务栈的作用"><span class="post-toc-text">2.任务栈的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-taskAffinity"><span class="post-toc-text">3.taskAffinity</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、四大启动模式"><span class="post-toc-text">二、四大启动模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-standard"><span class="post-toc-text">1.standard</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-singleTop"><span class="post-toc-text">2.singleTop</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-singleTask"><span class="post-toc-text">3.singleTask</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#栈内复用模式"><span class="post-toc-text">栈内复用模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-singleInstance"><span class="post-toc-text">4.singleInstance</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、设置方式"><span class="post-toc-text">三、设置方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、其他"><span class="post-toc-text">四、其他</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-LaunchMode与StartActivityForResult"><span class="post-toc-text">1. LaunchMode与StartActivityForResult</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
